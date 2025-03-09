@@ -1,0 +1,503 @@
+/* =============================================================== */
+/*          STQMedia / STQPictures App CSS Styles                  */
+/*       Artistic Elegance & Modern Responsive Enhancements        */
+/* =============================================================== */
+
+/* =============================================================== */
+/* Section: Navbar Enhancements                                   */
+/* --------------------------------------------------------------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  width: 100%;
+  background: linear-gradient(to right, #212121, #151515);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.navbar:hover {
+  background: linear-gradient(to right, #1a1a1a, #121212);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.navbar .navbar-brand {
+  font-size: 1.8rem;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar .navbar-brand:hover {
+  color: #ffc107;
+  transform: scale(1.1);
+  text-shadow: 0px 0px 5px rgba(255, 193, 7, 0.7);
+}
+
+.navbar .nav-link {
+  color: #ccc;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.navbar .nav-link:hover {
+  color: #ffcc00;
+  text-decoration: underline;
+  transform: scale(1.05);
+}
+
+/* =============================================================== */
+/* Section: Hero Section & Background                            */
+/* --------------------------------------------------------------- */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  background: url("/static/stqpictures/images/indexhero_bg.jpg") no-repeat center center / cover;
+}
+
+.hero-overlay {
+  backdrop-filter: blur(6px);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
+}
+
+.hero-title {
+  color: #ffc107;
+  font-size: 3rem;
+  position: relative;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.hero-title:hover {
+  color: #ff5722;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+  color: #fff;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+.hero-subtitle:hover {
+  color: #b71c1c;
+}
+
+/* =============================================================== */
+/* Section: Image Hover Effects                                   */
+/* --------------------------------------------------------------- */
+.gallery-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.gallery-image:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* =============================================================== */
+/* Section: Branding & Buttons                                    */
+/* --------------------------------------------------------------- */
+.textured-title {
+  font-weight: bold;
+  background-image: url('/static/stqpictures/images/stqpictures_texture.jpg');
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient {
+  background: linear-gradient(45deg, #4e54c8, #8f94fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-outline-primary {
+  border-color: #4e54c8;
+  color: #4e54c8;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-primary:hover {
+  background-color: #4e54c8;
+  color: white;
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* =============================================================== */
+/* Section: Media Queries                                         */
+/* --------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .navbar-nav {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hero {
+    height: 50vh;
+    padding: 10px;
+  }
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+
+/* =============================================================== */
+/* Swiper Gallery Enhancements                                    */
+/* --------------------------------------------------------------- */
+swiper-container {
+  width: 100%;
+  height: 400px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+
+/* Navigation buttons */
+#gallery-prev, #gallery-next {
+  display: block !important; /* Ensure they are visible */
+  z-index: 1000; /* Make sure they're above the Swiper */
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 18px;
+}
+
+#gallery-prev:hover, #gallery-next:hover {
+  opacity: 1;
+}
+
+
+
+/* =============================================================== */
+/* Section: Icon Button Enhancements                              */
+/* --------------------------------------------------------------- */
+.icon-button {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(45deg, #ff7e5f, #feb47b);
+  padding: 8px 16px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50px;
+  text-transform: uppercase;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+  outline: none;
+}
+
+.icon-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+
+/* =============================================================== */
+/* BLOG: Hero Section styling                                 */
+/* --------------------------------------------------------------- */
+.hero {
+  background-image: url("/static/stqpictures/images/img_tree.gif"), url("/static/stqpictures/images/paper.gif");
+  background-color: #cccccc;
+  background-blend-mode: multiply;
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, repeat;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+/* Center the content inside the hero-section */
+.hero .container {
+  text-align: center;
+}
+
+/* Text Outline Effect */
+.text-outline {
+  color: white; /* White text */
+  -webkit-text-stroke: 1px black; /* For WebKit browsers (Chrome, Safari, etc.) */
+  text-shadow: 
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000; /* Fallback for other browsers */
+}
+
+
+/* ============================================= */
+/* Base styles for the navbar brand and logo                                 */
+/* --------------------------------------------- */
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Space between logo and title */
+}
+
+.navbar-brand img {
+  width: auto;
+  height: 180px; /* Adjust logo size */
+}
+
+/* Adjust the STQ Pictures title */
+.navbar-brand .icon-button {
+  margin-left: -10px; /* Nudge title closer to the logo */
+  font-size: 1.0rem; /* Reduce title size */
+}
+
+/* Clean gradient and texture for the title */
+.icon-button.textured-title {
+  text-shadow: none;
+  filter: none;
+}
+
+.text-gradient {
+  background: linear-gradient(45deg, #f3eded, #471802);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Profile button spacing and hover effect */
+.navbar .btn {
+  margin-left: 20px; /* Space between title and profile button */
+}
+
+.navbar .hover-effect:hover {
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar-brand {
+    gap: 5px; /* Reduce gap on smaller screens */
+  }
+  .navbar-brand img {
+    height: 80px; /* Smaller logo on mobile */
+  }
+  .navbar-brand .icon-button {
+    font-size: 1.2rem; /* Smaller title on mobile */
+  }
+  .navbar .btn {
+    margin-left: 10px; /* Reduce margin on smaller screens */
+  }
+}
+/* =============================================================== */
+/* Gallery Image Wrapper & Blurred Background                      */
+/* --------------------------------------------------------------- */
+/*
+  The wrapper positions the image and sets its own background image
+  (which is later blurred via a pseudo-element) so that any empty space
+  is filled with a softened version of the same image.
+*/
+.gallery-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 300px;              /* Matches slider container height */
+  overflow: hidden;
+  background-size: cover;     /* Fill the container */
+  background-position: center;
+}
+
+/* Create a blurred background using a pseudo-element */
+.gallery-img-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;         /* Uses the wrapper's background-image */
+  filter: blur(8px);          /* Adjust the blur amount as desired */
+  transform: scale(1.1);      /* Slight scale increases the blur effect beyond the edges */
+  z-index: 1;
+}
+
+/* The actual image (placed on top) */
+.gallery-img-wrapper img.gallery-img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;        /* Ensures the full image is visible */
+  object-position: center;    /* Center the image in the container */
+  /* Optional: Add a soft shadow for depth */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* =============================================================== */
+/* Swiper Container Optimizations & Flicker Reduction                */
+/* --------------------------------------------------------------- */
+.swiper-container {
+  will-change: transform;              
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);             /* Force hardware acceleration */
+  overflow: hidden;                     /* Ensure no stray elements cause reflow */
+}
+
+/* =============================================================== */
+/* Swiper Navigation Controls                                      */
+/* --------------------------------------------------------------- */
+.swiper-button-prev,
+.swiper-button-next {
+  position: absolute;
+  background-color: rgba(245, 245, 245, 0.8);  /* Light, neutral background */
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Position the previous button (left) */
+.swiper-button-prev {
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+
+/* Position the next button (right) */
+.swiper-button-next {
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+
+/* General semi-transparent background */
+.semi-transparent-bg {
+  background-color: rgba(0, 0, 0, 0.6); /* Black with 60% opacity */
+  display: inline-block;  /* Only as wide as its content */
+  padding: 0.5rem 1rem;  /* Adjust padding as necessary */
+  border-radius: 0.25rem; /* Slight rounding for a softer look */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Soft smooth shadow */
+  background-clip: padding-box; /* Background confined to content */
+}
+
+/* Default hover effect (adds blue background globally) */
+.hover-effect:hover {
+  background-color: #007bff; /* Blue */
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 🚫 1️⃣ **REMOVE BLUE BACKDROP FROM GALLERY & BLOG HERO SECTIONS** */
+.gallery-hero .hover-effect:hover,
+.blog-hero .hover-effect:hover {
+  background-color: rgba(0, 0, 0, 0.6) !important; /* Keep black overlay */
+  color: inherit !important; /* Retain original text color */
+}
+
+/* ✅ 2️⃣ **KEEP BLUE BACKDROP BEHIND TEXT FOR INTRO SECTION** */
+.intro-section .hover-effect:hover {
+  background-color: #007bff !important; /* Blue */
+  padding: 0.5rem 1rem; /* Ensure the backdrop sticks only to the text */
+  border-radius: 0.25rem; /* Keep it soft and contained */
+  display: inline-block; /* Prevent full-width blue backdrop */
+}
+
+/* ✅ 3️⃣ **KEEP BLUE HOVER EFFECT FOR NAVBAR BUTTONS** */
+.navbar .hover-effect:hover {
+  background-color: #007bff !important; /* Keep blue hover for navbar */
+  color: white !important;
+}
+
+
+/* =============================================================== */
+/* Footer: Custom Hover Effects and Smooth Transitions             */
+/* --------------------------------------------------------------- */
+/* Styling the social media icons with animation and dynamic hover effects */
+.social-icons a {
+  display: inline-block;
+  font-size: 2rem; /* Increase the icon size for better visibility */
+  padding: 15px; /* Added padding around the icon for the button feel */
+  margin: 0 10px; /* Add spacing between icons */
+  border-radius: 10px; /* Rounded corners for a more modern look */
+  background-color: #343a40; /* Dark background for icons */
+  color: #ffffff; /* White icon color */
+  transition: all 0.4s ease-in-out; /* Smooth transition for all properties */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+/* Hover effect: Color change, scaling and background shift */
+.social-icons a:hover {
+  background-color: #f0ad4e; /* Bright color on hover (you can customize this) */
+  color: #ffffff; /* Keep text color white */
+  transform: scale(1.2); /* Scale effect on hover */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Slight increase in shadow on hover */
+}
+
+/* Add responsive design for smaller screens */
+@media (max-width: 768px) {
+  .social-icons {
+    margin-top: 20px; /* Adjust margin for mobile screens */
+  }
+
+  .social-icons a {
+    font-size: 1.8rem; /* Slightly smaller icons for mobile view */
+    padding: 12px; /* Adjust padding on smaller screens */
+  }
+}
+
+/* Optional: Animation on hover for a smooth, modern effect */
+.social-icons a {
+  animation: bounceIn 1s ease-in-out; /* Adding bounce animation on load */
+}
+
+/* Bounce animation to make the icons feel dynamic */
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+

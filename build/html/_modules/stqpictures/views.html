@@ -1,0 +1,927 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stqpictures.views &mdash; STQMedia  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            STQMedia
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../stqpictures.html">stqpictures package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">stqpictures</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">STQMedia</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">stqpictures.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for stqpictures.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.http</span><span class="w"> </span><span class="kn">import</span> <span class="n">JsonResponse</span><span class="p">,</span> <span class="n">HttpResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Q</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.template.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">render_to_string</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">login</span><span class="p">,</span> <span class="n">logout</span><span class="p">,</span> <span class="n">authenticate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.mixins</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoginRequiredMixin</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.views.generic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListView</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">,</span> <span class="n">CreateView</span><span class="p">,</span> <span class="n">TemplateView</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BlogPost</span><span class="p">,</span> <span class="n">Product</span><span class="p">,</span> <span class="n">Service</span><span class="p">,</span> <span class="n">Cart</span><span class="p">,</span> <span class="n">CompetitionEntry</span><span class="p">,</span> <span class="n">Video</span><span class="p">,</span> <span class="n">Profile</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserRegistrationForm</span><span class="p">,</span> <span class="n">ProfileUpdateForm</span><span class="p">,</span> <span class="n">VideoForm</span>  
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span> 
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">stqpictures.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CurrencyConverter</span>  
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.core.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.core.validators</span><span class="w"> </span><span class="kn">import</span> <span class="n">URLValidator</span>  
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.views</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoginView</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.views.generic</span><span class="w"> </span><span class="kn">import</span> <span class="n">View</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.views.generic</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateView</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+<span class="c1"># Home page</span>
+<span class="c1"># class IndexView(TemplateView):</span>
+<span class="c1">#     template_name = &#39;stqpictures/index.html&#39;  # Update with your actual template</span>
+
+<span class="c1">#     def get_context_data(self, **kwargs):</span>
+<span class="c1">#         context = super().get_context_data(**kwargs)</span>
+<span class="c1">#         context[&#39;products&#39;] = Product.objects.all()  # Ensure you&#39;re passing products</span>
+<span class="c1">#         return context</span>
+    
+
+<div class="viewcode-block" id="GalleryImagesMixin">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.GalleryImagesMixin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GalleryImagesMixin</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Provides a DRY method to fetch gallery images from our static folder.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GalleryImagesMixin.get_gallery_images">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.GalleryImagesMixin.get_gallery_images">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_gallery_images</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Build the absolute path to the gallery folder</span>
+        <span class="n">gallery_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s2">&quot;stqpictures&quot;</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span> <span class="s2">&quot;gallery&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gallery_path</span><span class="p">):</span>
+            <span class="n">all_images</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">img</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">gallery_path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;webp&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_images</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Return a random sample if a count is specified; otherwise return sorted list</span>
+        <span class="k">if</span> <span class="n">count</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">all_images</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_images</span><span class="p">),</span> <span class="n">count</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">all_images</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="IndexView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.IndexView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IndexView</span><span class="p">(</span><span class="n">GalleryImagesMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/index.html&#39;</span>
+    
+<div class="viewcode-block" id="IndexView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.IndexView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># Add products, etc.</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;products&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="c1"># Add gallery preview images (6 random images)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;preview_images&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gallery_images</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+<div class="viewcode-block" id="GalleryView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.GalleryView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GalleryView</span><span class="p">(</span><span class="n">GalleryImagesMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;stqpictures/gallery.html&quot;</span>
+
+<div class="viewcode-block" id="GalleryView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.GalleryView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># For full gallery, list all images (sorted)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;images&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gallery_images</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+<div class="viewcode-block" id="GalleryPreviewView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.GalleryPreviewView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GalleryPreviewView</span><span class="p">(</span><span class="n">GalleryImagesMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;stqpictures/includes/gallery_preview.html&quot;</span>
+
+<div class="viewcode-block" id="GalleryPreviewView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.GalleryPreviewView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># For the dedicated preview view (if needed separately), only 6 images</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;images&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gallery_images</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<span class="c1"># About page</span>
+<div class="viewcode-block" id="AboutView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.AboutView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AboutView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="AboutView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.AboutView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/about.html&#39;</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># Mzansi page</span>
+<div class="viewcode-block" id="MzansiView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.MzansiView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MzansiView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="MzansiView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.MzansiView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">range_mzansi</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/mzansi.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;range_mzansi&#39;</span><span class="p">:</span> <span class="n">range_mzansi</span><span class="p">})</span></div>
+</div>
+
+
+<span class="c1"># Nature page</span>
+<div class="viewcode-block" id="NatureView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.NatureView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NatureView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="NatureView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.NatureView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">range_nature</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/nature.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;range_nature&#39;</span><span class="p">:</span> <span class="n">range_nature</span><span class="p">})</span></div>
+</div>
+
+
+<span class="c1"># Blog List View</span>
+<div class="viewcode-block" id="BlogListView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.BlogListView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BlogListView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="BlogListView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.BlogListView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">blog_posts</span> <span class="o">=</span> <span class="n">BlogPost</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-published_date&#39;</span><span class="p">)</span>  <span class="c1"># Retrieve all blog posts</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/blog.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;blog_posts&#39;</span><span class="p">:</span> <span class="n">blog_posts</span><span class="p">})</span></div>
+</div>
+
+
+<span class="c1"># Blog Detail View</span>
+<div class="viewcode-block" id="BlogDetailView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.BlogDetailView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BlogDetailView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="BlogDetailView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.BlogDetailView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">blog_post</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">BlogPost</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>  <span class="c1"># Retrieve a blog post by primary key</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/blog_detail.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;blog_post&#39;</span><span class="p">:</span> <span class="n">blog_post</span><span class="p">})</span></div>
+</div>
+
+
+
+<span class="c1"># Contact page</span>
+<div class="viewcode-block" id="ContactView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ContactView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContactView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="ContactView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ContactView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/contact.html&#39;</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># Registration Page </span>
+<div class="viewcode-block" id="RegisterView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.RegisterView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RegisterView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="RegisterView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.RegisterView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">UserRegistrationForm</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/register.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="RegisterView.post">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.RegisterView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">UserRegistrationForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>  <span class="c1"># ✅ Create a profile for the user automatically</span>
+            <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;stqpictures:profile&#39;</span><span class="p">)</span>  <span class="c1"># Redirect after login</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/register.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span></div>
+</div>
+
+
+
+
+<span class="c1"># Profile View (for unauthenticated users only)</span>
+<div class="viewcode-block" id="ProfileView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProfileView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProfileView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Profile</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/profile.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;profile&#39;</span>
+
+<div class="viewcode-block" id="ProfileView.get_object">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProfileView.get_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="s1">&#39;profile&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;stqpictures:home&#39;</span><span class="p">)</span>  <span class="c1"># ✅ Redirect if no profile exists</span></div>
+</div>
+
+        
+<span class="c1"># Profile Update View</span>
+<div class="viewcode-block" id="ProfileUpdateView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProfileUpdateView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProfileUpdateView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="ProfileUpdateView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProfileUpdateView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">ProfileUpdateForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/profile.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="ProfileUpdateView.post">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProfileUpdateView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">ProfileUpdateForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;stqpictures:profile&#39;</span><span class="p">)</span>  <span class="c1"># ✅ Refresh profile after update</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/profile.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">})</span></div>
+</div>
+
+
+
+
+<span class="c1"># Login page (for unauthenticated users only)</span>
+<div class="viewcode-block" id="CustomLoginView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CustomLoginView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomLoginView</span><span class="p">(</span><span class="n">LoginView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/login.html&#39;</span>  <span class="c1"># Use your custom login template</span>
+    <span class="n">redirect_authenticated_user</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Prevent logged-in users from accessing the login page</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;stqpictures:home&#39;</span><span class="p">)</span>  <span class="c1"># Redirect to home after successful login</span>
+
+<div class="viewcode-block" id="CustomLoginView.get_success_url">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CustomLoginView.get_success_url">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Override this method to ensure the user is always redirected to the `success_url`</span>
+<span class="sd">        and not to `/accounts/profile/`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">next_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;next&#39;</span><span class="p">)</span>  <span class="c1"># Check for &#39;next&#39; parameter</span>
+        <span class="k">return</span> <span class="n">next_url</span> <span class="k">if</span> <span class="n">next_url</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">success_url</span></div>
+
+
+<div class="viewcode-block" id="CustomLoginView.form_invalid">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CustomLoginView.form_invalid">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">form_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle invalid form submissions (e.g., incorrect credentials).</span>
+<span class="sd">        Add a custom error message to the context.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_to_response</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="s1">&#39;Invalid username or password&#39;</span><span class="p">)</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># Logout view</span>
+<div class="viewcode-block" id="LogoutView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.LogoutView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LogoutView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="LogoutView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.LogoutView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;stqpictures:home&#39;</span><span class="p">)</span>  <span class="c1"># Redirect to home after logout</span></div>
+</div>
+
+
+<span class="c1"># Checkout page (for authenticated users only)</span>
+<div class="viewcode-block" id="CheckoutView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CheckoutView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CheckoutView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="CheckoutView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CheckoutView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">cart_items</span> <span class="o">=</span> <span class="n">Cart</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cart_items</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;stqpictures:cart&#39;</span><span class="p">)</span>
+
+        <span class="n">total_price</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">item</span><span class="o">.</span><span class="n">quantity</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/checkout.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span> <span class="s1">&#39;total_price&#39;</span><span class="p">:</span> <span class="n">total_price</span><span class="p">})</span></div>
+</div>
+
+
+<span class="c1"># Guest Checkout (for unauthenticated users only)</span>
+<div class="viewcode-block" id="GuestCheckoutView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.GuestCheckoutView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GuestCheckoutView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="GuestCheckoutView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.GuestCheckoutView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">cart</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">cart_items</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">quantity</span> <span class="ow">in</span> <span class="n">cart</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+            <span class="n">cart_items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="n">product</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="n">quantity</span><span class="p">})</span>
+
+        <span class="n">total_price</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;product&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span> <span class="k">if</span> <span class="n">cart_items</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/guest_checkout.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span> <span class="s1">&#39;total_price&#39;</span><span class="p">:</span> <span class="n">total_price</span><span class="p">})</span></div>
+</div>
+
+    
+
+<span class="c1"># Save for later</span>
+<div class="viewcode-block" id="SaveForLaterView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.SaveForLaterView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SaveForLaterView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="SaveForLaterView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.SaveForLaterView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/save_for_later.html&#39;</span><span class="p">)</span></div>
+</div>
+
+
+   
+<span class="c1"># Cart Views </span>
+<div class="viewcode-block" id="CartView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CartView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CartView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="CartView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CartView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+            <span class="n">cart_items</span> <span class="o">=</span> <span class="n">Cart</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cart</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">,</span> <span class="p">{})</span>  <span class="c1"># Retrieve guest cart from session</span>
+            <span class="n">cart_items</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">quantity</span> <span class="ow">in</span> <span class="n">cart</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+                <span class="n">cart_items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="n">product</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="n">quantity</span><span class="p">})</span>
+
+        <span class="n">total_price</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;product&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span> <span class="k">if</span> <span class="n">cart_items</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/cart.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span> <span class="s1">&#39;total_price&#39;</span><span class="p">:</span> <span class="n">total_price</span><span class="p">})</span></div>
+</div>
+
+    
+
+<span class="c1"># Add to Cart View (handling both Products and Services)</span>
+<div class="viewcode-block" id="AddToCartView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.AddToCartView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AddToCartView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="AddToCartView.post">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.AddToCartView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">,</span> <span class="n">item_type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+            <span class="c1"># Authenticated user: Add to database cart</span>
+            <span class="k">if</span> <span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;product&quot;</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">)</span>
+                <span class="n">cart</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">Cart</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">product</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;service&quot;</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Service</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">)</span>
+                <span class="n">cart</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">Cart</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid item type.&quot;</span><span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+
+            <span class="n">cart</span><span class="o">.</span><span class="n">quantity</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">cart</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Guest User: Store in session-based cart</span>
+            <span class="n">cart</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">item_id</span><span class="p">)</span> <span class="ow">in</span> <span class="n">cart</span><span class="p">:</span>
+                <span class="n">cart</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">item_id</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cart</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">item_id</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;cart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cart</span>
+            <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Item added to cart!&quot;</span><span class="p">})</span></div>
+</div>
+
+    
+
+<span class="c1"># CentralView to consolidate all the views</span>
+<div class="viewcode-block" id="CentralView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CentralView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CentralView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="CentralView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CentralView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">page_name</span><span class="o">=</span><span class="s2">&quot;home&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Define navigation menus</span>
+        <span class="n">secondary_nav_pages</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;about&#39;</span><span class="p">,</span> <span class="s1">&#39;contact&#39;</span><span class="p">,</span> <span class="s1">&#39;gallery&#39;</span><span class="p">,</span> <span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="s1">&#39;mzansi&#39;</span><span class="p">,</span> <span class="s1">&#39;nature&#39;</span><span class="p">,</span> <span class="s1">&#39;services&#39;</span><span class="p">,</span> <span class="s1">&#39;products&#39;</span><span class="p">]</span>
+
+        <span class="n">primary_nav</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Home&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:home&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;About&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:about&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Gallery&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:gallery&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Blog&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:blog_list&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Contact&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:contact&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Services&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:service_list&#39;</span><span class="p">},</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+            <span class="n">primary_nav</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Checkout&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:checkout&#39;</span><span class="p">})</span>
+            <span class="n">primary_nav</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Logout&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:logout&#39;</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">primary_nav</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Login&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:login&#39;</span><span class="p">})</span>
+            <span class="n">primary_nav</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Guest Checkout&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:guest_checkout&#39;</span><span class="p">})</span>
+
+        <span class="n">secondary_nav</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="n">secondary_nav_pages</span><span class="p">:</span>
+            <span class="n">secondary_nav</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Nature&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:nature&#39;</span><span class="p">},</span>
+                <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Mzansi&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:mzansi&#39;</span><span class="p">},</span>
+                <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Cart&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:cart&#39;</span><span class="p">},</span>
+                <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Saved for Later&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:save_for_later&#39;</span><span class="p">},</span>
+            <span class="p">]</span>
+
+        <span class="n">show_back_forward</span> <span class="o">=</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;add-to-cart&#39;</span><span class="p">,</span> <span class="s1">&#39;save-for-later&#39;</span><span class="p">,</span> <span class="s1">&#39;checkout&#39;</span><span class="p">,</span> <span class="s1">&#39;blog&#39;</span><span class="p">]</span>
+
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;page_name&#39;</span><span class="p">:</span> <span class="n">page_name</span><span class="p">,</span>
+            <span class="s1">&#39;primary_nav&#39;</span><span class="p">:</span> <span class="n">primary_nav</span><span class="p">,</span>
+            <span class="s1">&#39;secondary_nav&#39;</span><span class="p">:</span> <span class="n">secondary_nav</span><span class="p">,</span>
+            <span class="s1">&#39;show_back_forward&#39;</span><span class="p">:</span> <span class="n">show_back_forward</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Handle specific page rendering</span>
+        <span class="k">if</span> <span class="n">page_name</span> <span class="o">==</span> <span class="s2">&quot;blog&quot;</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;blog_posts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BlogPost</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-published_date&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">page_name</span> <span class="o">==</span> <span class="s2">&quot;mzansi&quot;</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;range_mzansi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">page_name</span> <span class="o">==</span> <span class="s2">&quot;nature&quot;</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;range_nature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">page_name</span> <span class="o">==</span> <span class="s2">&quot;services&quot;</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;services&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Service</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;stqpictures/service_list.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">page_name</span> <span class="o">==</span> <span class="s2">&quot;products&quot;</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;products&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;stqpictures/product_list.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> 
+
+        <span class="c1"># Search functionality</span>
+        <span class="k">if</span> <span class="s1">&#39;q&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>
+            <span class="n">blog_results</span> <span class="o">=</span> <span class="n">BlogPost</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">title__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">content__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
+            <span class="n">service_results</span> <span class="o">=</span> <span class="n">Service</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">name__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">description__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">[{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">blog</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:blog_detail&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;blog&#39;</span><span class="p">}</span> <span class="k">for</span> <span class="n">blog</span> <span class="ow">in</span> <span class="n">blog_results</span><span class="p">]</span> <span class="o">+</span>
+                <span class="p">[{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">service</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;stqpictures:service_detail&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;service&#39;</span><span class="p">}</span> <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="n">service_results</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span>
+            <span class="n">context</span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query</span>
+
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;stqpictures/</span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s2">.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># Function to get the exchange rate (converted to a class method for consistency)</span>
+<div class="viewcode-block" id="CurrencyConverter">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CurrencyConverter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CurrencyConverter</span><span class="p">:</span>
+<div class="viewcode-block" id="CurrencyConverter.get_exchange_rate">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CurrencyConverter.get_exchange_rate">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_exchange_rate</span><span class="p">(</span><span class="n">from_currency</span><span class="o">=</span><span class="s2">&quot;ZAR&quot;</span><span class="p">,</span> <span class="n">to_currency</span><span class="o">=</span><span class="s2">&quot;ZAR&quot;</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://api.exchangerate-api.com/v4/latest/</span><span class="si">{</span><span class="n">from_currency</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;rates&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">to_currency</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error fetching exchange rates: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">1</span>  <span class="c1"># Default to 1 if API fails</span></div>
+</div>
+
+
+
+<span class="c1"># Product Detail View with Currency Conversion</span>
+<div class="viewcode-block" id="ProductDetailView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProductDetailView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductDetailView</span><span class="p">(</span><span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Product</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/product_detail.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;product&#39;</span>
+
+<div class="viewcode-block" id="ProductDetailView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProductDetailView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">selected_currency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span><span class="p">,</span> <span class="s1">&#39;ZAR&#39;</span><span class="p">)</span>
+        <span class="n">exchange_rate</span> <span class="o">=</span> <span class="n">CurrencyConverter</span><span class="o">.</span><span class="n">get_exchange_rate</span><span class="p">(</span><span class="s2">&quot;ZAR&quot;</span><span class="p">,</span> <span class="n">selected_currency</span><span class="p">)</span>
+
+        <span class="n">product</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s1">&#39;product&#39;</span><span class="p">]</span>
+        <span class="n">product</span><span class="o">.</span><span class="n">converted_price</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">exchange_rate</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;selected_currency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">selected_currency</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+    
+<div class="viewcode-block" id="ProductListView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProductListView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductListView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Product</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/product_list.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;products&#39;</span>
+    <span class="n">paginate_by</span> <span class="o">=</span> <span class="mi">12</span>
+
+<div class="viewcode-block" id="ProductListView.get_queryset">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProductListView.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">sort_option</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sort&#39;</span><span class="p">,</span> <span class="s1">&#39;name-a-z&#39;</span><span class="p">)</span>  <span class="c1"># Default sorting</span>
+
+        <span class="c1"># Apply sorting logic</span>
+        <span class="k">if</span> <span class="n">sort_option</span> <span class="o">==</span> <span class="s1">&#39;price-low-high&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sort_option</span> <span class="o">==</span> <span class="s1">&#39;price-high-low&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-price&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sort_option</span> <span class="o">==</span> <span class="s1">&#39;name-a-z&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sort_option</span> <span class="o">==</span> <span class="s1">&#39;name-z-a&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-name&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+
+<div class="viewcode-block" id="ProductListView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ProductListView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">selected_currency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span><span class="p">,</span> <span class="s1">&#39;ZAR&#39;</span><span class="p">)</span>  <span class="c1"># Default to ZAR</span>
+        <span class="n">exchange_rate</span> <span class="o">=</span> <span class="n">CurrencyConverter</span><span class="o">.</span><span class="n">get_exchange_rate</span><span class="p">(</span><span class="s2">&quot;ZAR&quot;</span><span class="p">,</span> <span class="n">selected_currency</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">context</span><span class="p">[</span><span class="s1">&#39;products&#39;</span><span class="p">]:</span>
+            <span class="n">product</span><span class="o">.</span><span class="n">converted_price</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">exchange_rate</span>
+
+        <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s1">&#39;selected_currency&#39;</span><span class="p">:</span> <span class="n">selected_currency</span><span class="p">,</span>
+            <span class="s1">&#39;exchange_rate&#39;</span><span class="p">:</span> <span class="n">exchange_rate</span><span class="p">,</span>
+            <span class="s1">&#39;sort_option&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sort&#39;</span><span class="p">,</span> <span class="s1">&#39;name-a-z&#39;</span><span class="p">)</span>
+        <span class="p">})</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ServiceListView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ServiceListView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ServiceListView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Service</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/service_list.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;services&#39;</span>
+    <span class="n">paginate_by</span> <span class="o">=</span> <span class="mi">12</span>
+
+<div class="viewcode-block" id="ServiceListView.get_queryset">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ServiceListView.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="n">Service</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">sort_option</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sort&#39;</span><span class="p">,</span> <span class="s1">&#39;name-a-z&#39;</span><span class="p">)</span>  <span class="c1"># Default sorting</span>
+
+        <span class="c1"># Apply sorting logic</span>
+        <span class="k">if</span> <span class="n">sort_option</span> <span class="o">==</span> <span class="s1">&#39;price-low-high&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sort_option</span> <span class="o">==</span> <span class="s1">&#39;price-high-low&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-price&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sort_option</span> <span class="o">==</span> <span class="s1">&#39;name-a-z&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sort_option</span> <span class="o">==</span> <span class="s1">&#39;name-z-a&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-name&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+
+<div class="viewcode-block" id="ServiceListView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ServiceListView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">selected_currency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span><span class="p">,</span> <span class="s1">&#39;ZAR&#39;</span><span class="p">)</span>  <span class="c1"># Default to ZAR</span>
+        <span class="n">exchange_rate</span> <span class="o">=</span> <span class="n">CurrencyConverter</span><span class="o">.</span><span class="n">get_exchange_rate</span><span class="p">(</span><span class="s2">&quot;ZAR&quot;</span><span class="p">,</span> <span class="n">selected_currency</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="n">context</span><span class="p">[</span><span class="s1">&#39;services&#39;</span><span class="p">]:</span>
+            <span class="n">service</span><span class="o">.</span><span class="n">converted_price</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">exchange_rate</span>
+
+        <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s1">&#39;selected_currency&#39;</span><span class="p">:</span> <span class="n">selected_currency</span><span class="p">,</span>
+            <span class="s1">&#39;exchange_rate&#39;</span><span class="p">:</span> <span class="n">exchange_rate</span><span class="p">,</span>
+            <span class="s1">&#39;sort_option&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sort&#39;</span><span class="p">,</span> <span class="s1">&#39;name-a-z&#39;</span><span class="p">)</span>
+        <span class="p">})</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+<span class="c1"># Service Detail View with Currency Conversion</span>
+<div class="viewcode-block" id="ServiceDetailView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ServiceDetailView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ServiceDetailView</span><span class="p">(</span><span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Service</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/service_detail.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;service&#39;</span>
+
+<div class="viewcode-block" id="ServiceDetailView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.ServiceDetailView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">selected_currency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span><span class="p">,</span> <span class="s1">&#39;ZAR&#39;</span><span class="p">)</span>
+        <span class="n">exchange_rate</span> <span class="o">=</span> <span class="n">CurrencyConverter</span><span class="o">.</span><span class="n">get_exchange_rate</span><span class="p">(</span><span class="s2">&quot;ZAR&quot;</span><span class="p">,</span> <span class="n">selected_currency</span><span class="p">)</span>
+
+        <span class="n">service</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s1">&#39;service&#39;</span><span class="p">]</span>
+        <span class="n">service</span><span class="o">.</span><span class="n">converted_price</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">service</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">exchange_rate</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;selected_currency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">selected_currency</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CompetitionEntryCreateView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CompetitionEntryCreateView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CompetitionEntryCreateView</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">CompetitionEntry</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;phone&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span> <span class="s2">&quot;upload_link&quot;</span><span class="p">]</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;stqpictures/competitions/stq_svcfranchise.html&quot;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;competition_entry&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CompetitionEntryCreateView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CompetitionEntryCreateView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;top_20_contestants&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CompetitionEntry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;-submission_date&quot;</span><span class="p">)[:</span><span class="mi">20</span><span class="p">]</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;winner&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;top_20_contestants&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">first</span><span class="p">()</span> <span class="k">if</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;top_20_contestants&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+<div class="viewcode-block" id="CompetitionListView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CompetitionListView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CompetitionListView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">CompetitionEntry</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;stqpictures/competitions/stq_svcfranchise.html&quot;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s2">&quot;top_20_contestants&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">CompetitionEntry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;-submission_date&quot;</span><span class="p">)[:</span><span class="mi">20</span><span class="p">]</span>
+
+<div class="viewcode-block" id="CompetitionListView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.CompetitionListView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;winner&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">first</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+<span class="c1"># Music Video Production Views </span>
+<div class="viewcode-block" id="MusicVideoProductionView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.MusicVideoProductionView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MusicVideoProductionView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;stqpictures/departments/music_video.html&quot;</span>
+
+<div class="viewcode-block" id="MusicVideoProductionView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.MusicVideoProductionView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+        <span class="c1"># Read the JSON file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;static/stqpictures/data/music_video_packages.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+        <span class="c1"># Pass the data as context</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;service&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;service&#39;</span><span class="p">]</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;packages&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;packages&#39;</span><span class="p">]</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;additional_services&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;additional_services&#39;</span><span class="p">]</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;booking_details&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;booking_details&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<span class="c1"># ✅ Video Listing View</span>
+<div class="viewcode-block" id="VideoListView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.VideoListView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VideoListView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="VideoListView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.VideoListView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">videos</span> <span class="o">=</span> <span class="n">Video</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>  <span class="c1"># Fetch all uploaded videos</span>
+
+        <span class="c1"># Static videos for UI/Promotions</span>
+        <span class="n">static_videos</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Promo Video&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/static/videos/promo.mp4&#39;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Tutorial Video&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/static/videos/tutorial.mp4&#39;</span><span class="p">}</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;video_list.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;videos&#39;</span><span class="p">:</span> <span class="n">videos</span><span class="p">,</span> <span class="s1">&#39;static_videos&#39;</span><span class="p">:</span> <span class="n">static_videos</span><span class="p">})</span></div>
+</div>
+
+
+<span class="c1"># ✅ Serve Individual Video</span>
+<div class="viewcode-block" id="VideoDetailView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.VideoDetailView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VideoDetailView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="VideoDetailView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.VideoDetailView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">video_id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">video</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Video</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">video_id</span><span class="p">)</span>
+
+        <span class="c1"># If it&#39;s an uploaded video, serve the file directly</span>
+        <span class="k">if</span> <span class="n">video</span><span class="o">.</span><span class="n">video_file</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">video</span><span class="o">.</span><span class="n">video_file</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;video/mp4&#39;</span><span class="p">)</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;inline; filename=&quot;</span><span class="si">{</span><span class="n">video</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">.mp4&quot;&#39;</span>
+            <span class="k">return</span> <span class="n">response</span>
+
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;video_detail.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;video&#39;</span><span class="p">:</span> <span class="n">video</span><span class="p">})</span></div>
+</div>
+
+
+<span class="c1"># ✅ Video Upload View (Authenticated Users Only)</span>
+<div class="viewcode-block" id="VideoUploadView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.VideoUploadView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VideoUploadView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="VideoUploadView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.VideoUploadView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">VideoForm</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;upload_video.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="VideoUploadView.post">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.VideoUploadView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">VideoForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">video</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">video</span><span class="o">.</span><span class="n">uploaded_by</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>  <span class="c1"># Assign uploader</span>
+            <span class="n">video</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;video-list&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;upload_video.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span></div>
+</div>
+
+
+
+<span class="c1"># STQ_SVCFranchise Views</span>
+<div class="viewcode-block" id="FranchiseView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.FranchiseView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FranchiseView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="FranchiseView.get">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.FranchiseView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Now referencing the correct template path</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;stqpictures/competitions/stq_svcfranchise.html&#39;</span><span class="p">)</span></div>
+</div>
+
+    
+<span class="c1"># Search Views </span>
+<div class="viewcode-block" id="SearchView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.SearchView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SearchView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/search_results.html&#39;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;results&#39;</span>
+
+<div class="viewcode-block" id="SearchView.get_queryset">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.SearchView.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">query</span><span class="p">:</span>
+            <span class="n">product_results</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+            <span class="n">service_results</span> <span class="o">=</span> <span class="n">Service</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+            <span class="n">blog_results</span> <span class="o">=</span> <span class="n">BlogPost</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">title__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">content__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">product_results</span> <span class="o">=</span> <span class="n">Service</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">none</span><span class="p">()</span>
+            <span class="n">service_results</span> <span class="o">=</span> <span class="n">Service</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">none</span><span class="p">()</span>
+            <span class="n">blog_results</span> <span class="o">=</span> <span class="n">BlogPost</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">none</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">product_results</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">service_results</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">blog_results</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SearchView.get_context_data">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.SearchView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># ✅ Pass search query for the template</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<span class="c1"># Views for &#39;privacy&#39; and &#39;terms&#39;</span>
+<div class="viewcode-block" id="PrivacyView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.PrivacyView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PrivacyView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/privacy.html&#39;</span>  <span class="c1"># Path to your privacy policy template</span></div>
+
+
+<div class="viewcode-block" id="TermsView">
+<a class="viewcode-back" href="../../stqpictures.html#stqpictures.views.TermsView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TermsView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;stqpictures/terms.html&#39;</span>    <span class="c1"># Path to your terms of service template</span></div>
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, STQMedia_Africa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

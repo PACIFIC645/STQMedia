@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - STQ Media{% endblock %}
+
+{% block content %}
+<div class="bg-light min-vh-100">
+  <div class="container py-5">
+    <!-- Page Title Section -->
+    <div class="py-5 text-center">
+      <h1 class="display-4 fw-bold">Welcome to <span class="text-gradient">STQ Media</span></h1>
+    </div>
+    
+    <!-- Introduction Section -->
+    <div class="text-center mb-5">
+      <p class="lead mx-auto" style="max-width: 800px;">
+        STQ Media is a leading company specialized in photography, media, and art. We are dedicated to delivering exceptional service, capturing moments, and showcasing artistic talents through our photography services.
+      </p>
+    </div>
+    
+    <!-- Creative Inspirations Section -->
+    <div class="mb-5">
+      <h2 class="h3 fw-semibold text-center mb-3"><span class="text-gradient">Creative Inspirations</span></h2>
+      <p class="text-center text-muted mb-4">
+        We find inspiration in the vibrant and artistic landscapes around us. Below are glimpses of our vision:
+      </p>
+      
+      <!-- Grid Layout for Images -->
+      <div class="row g-4">
+        <!-- Image Card 1 -->
+        <div class="col-12 col-md-6">
+          <div class="card border-0 overflow-hidden shadow-sm">
+            <img src="{% static 'stqpictures/images/stqpictures_about1.jpg' %}" alt="City view from UJ APK" class="card-img-top img-fluid hover-scale">
+            <div class="card-img-overlay d-flex align-items-end p-2" style="background: rgba(0,0,0,0.4); opacity: 0; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
+              <p class="card-text text-white small text-center w-100">
+                "A breathtaking view of Johannesburg from The Kingsway Campus of UJ (APK)."
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Image Card 2 -->
+        <div class="col-12 col-md-6">
+          <div class="card border-0 overflow-hidden shadow-sm">
+            <img src="{% static 'stqpictures/images/stqpictures_about2.jpg' %}" alt="Turbine Hall in Newtown" class="card-img-top img-fluid hover-scale">
+            <div class="card-img-overlay d-flex align-items-end p-2" style="background: rgba(0,0,0,0.4); opacity: 0; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
+              <p class="card-text text-white small text-center w-100">
+                "A stunning perspective of Turbine Hall in Newtown, seen from Sci-Bono Discovery Centre."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+{% endblock %}

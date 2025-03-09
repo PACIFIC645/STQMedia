@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <h1 class="display-5 fw-bold mb-3">{{ video.title }}</h1>
+      {% if video.video_file %}
+        <video id="my-player" class="video-js w-100 rounded" controls preload="auto" data-setup='{}' style="max-height: 360px;">
+          <source src="{% static 'videos/sample.mp4' %}" type="video/mp4">
+          <source src="{% static 'videos/sample.webm' %}" type="video/webm">
+          <source src="{% static 'videos/sample.ogg' %}" type="video/ogg">
+          <p class="text-muted">To view this video please enable JavaScript or upgrade your browser.</p>
+        </video>
+      {% elif video.youtube_url %}
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="w-100 rounded" style="height:360px;" src="{{ video.youtube_url }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+      {% else %}
+        <p class="text-danger">No video available.</p>
+      {% endif %}
+      <!-- Close Button -->
+      <button id="closePlayer" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-3">X</button>
+    </div>
+  </div>
+  <div class="text-center">
+    <a href="{% url 'video-list' %}" class="btn btn-outline-secondary">⬅ Back to Gallery</a>
+  </div>
+</div>
+
+<script>
+  document.getElementById("closePlayer").addEventListener("click", function() {
+    let player = document.getElementById("my-player");
+    if (player) {
+      player.pause();
+      player.parentElement.innerHTML = "<p class='text-muted'>Video closed.</p>";
+    }
+  });
+</script>
+{% endblock %}

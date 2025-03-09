@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stqpictures.migrations package &mdash; STQMedia  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="stqpictures" href="modules.html" />
+    <link rel="prev" title="stqpictures package" href="stqpictures.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            STQMedia
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="stqpictures.html">stqpictures package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="stqpictures.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">stqpictures.migrations package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-stqpictures.migrations.0001_initial">stqpictures.migrations.0001_initial module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-stqpictures.migrations.0002_product">stqpictures.migrations.0002_product module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-stqpictures.migrations.0003_service_cart_cartitem">stqpictures.migrations.0003_service_cart_cartitem module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-stqpictures.migrations.0004_competitionentry">stqpictures.migrations.0004_competitionentry module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-stqpictures.migrations.0005_video">stqpictures.migrations.0005_video module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-stqpictures.migrations.0006_video_uploaded_by">stqpictures.migrations.0006_video_uploaded_by module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-stqpictures.migrations.0007_profile">stqpictures.migrations.0007_profile module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more">stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-stqpictures.migrations">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures.admin">stqpictures.admin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures.apps">stqpictures.apps module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures.forms">stqpictures.forms module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures.models">stqpictures.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures.serializers">stqpictures.serializers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures.tests">stqpictures.tests module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures.urls">stqpictures.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures.utils">stqpictures.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures.views">stqpictures.views module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stqpictures.html#module-stqpictures">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">stqpictures</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">STQMedia</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="stqpictures.html">stqpictures package</a></li>
+      <li class="breadcrumb-item active">stqpictures.migrations package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/stqpictures.migrations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stqpictures-migrations-package">
+<h1>stqpictures.migrations package<a class="headerlink" href="#stqpictures-migrations-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-stqpictures.migrations.0001_initial">
+<span id="stqpictures-migrations-0001-initial-module"></span><h2>stqpictures.migrations.0001_initial module<a class="headerlink" href="#module-stqpictures.migrations.0001_initial" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stqpictures.migrations.0001_initial.Migration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stqpictures.migrations.0001_initial.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stqpictures/migrations/0001_initial.html#Migration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stqpictures.migrations.0001_initial.Migration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0001_initial.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#stqpictures.migrations.0001_initial.Migration.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0001_initial.Migration.initial">
+<span class="sig-name descname"><span class="pre">initial</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#stqpictures.migrations.0001_initial.Migration.initial" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0001_initial.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='BlogPost',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('title',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('content',</span> <span class="pre">&lt;django.db.models.fields.TextField&gt;),</span> <span class="pre">('featured_image',</span> <span class="pre">&lt;django.db.models.fields.files.ImageField&gt;),</span> <span class="pre">('published_date',</span> <span class="pre">&lt;django.db.models.fields.DateTimeField&gt;)]&gt;]</span></em><a class="headerlink" href="#stqpictures.migrations.0001_initial.Migration.operations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-stqpictures.migrations.0002_product">
+<span id="stqpictures-migrations-0002-product-module"></span><h2>stqpictures.migrations.0002_product module<a class="headerlink" href="#module-stqpictures.migrations.0002_product" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stqpictures.migrations.0002_product.Migration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stqpictures.migrations.0002_product.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stqpictures/migrations/0002_product.html#Migration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stqpictures.migrations.0002_product.Migration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0002_product.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('stqpictures',</span> <span class="pre">'0001_initial')]</span></em><a class="headerlink" href="#stqpictures.migrations.0002_product.Migration.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0002_product.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='Product',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('description',</span> <span class="pre">&lt;django.db.models.fields.TextField&gt;),</span> <span class="pre">('price',</span> <span class="pre">&lt;django.db.models.fields.DecimalField&gt;),</span> <span class="pre">('image',</span> <span class="pre">&lt;django.db.models.fields.files.ImageField&gt;),</span> <span class="pre">('category',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('created_at',</span> <span class="pre">&lt;django.db.models.fields.DateTimeField&gt;)]&gt;]</span></em><a class="headerlink" href="#stqpictures.migrations.0002_product.Migration.operations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-stqpictures.migrations.0003_service_cart_cartitem">
+<span id="stqpictures-migrations-0003-service-cart-cartitem-module"></span><h2>stqpictures.migrations.0003_service_cart_cartitem module<a class="headerlink" href="#module-stqpictures.migrations.0003_service_cart_cartitem" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stqpictures.migrations.0003_service_cart_cartitem.Migration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stqpictures.migrations.0003_service_cart_cartitem.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stqpictures/migrations/0003_service_cart_cartitem.html#Migration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stqpictures.migrations.0003_service_cart_cartitem.Migration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0003_service_cart_cartitem.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('stqpictures',</span> <span class="pre">'0002_product'),</span> <span class="pre">('auth',</span> <span class="pre">'__first__')]</span></em><a class="headerlink" href="#stqpictures.migrations.0003_service_cart_cartitem.Migration.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0003_service_cart_cartitem.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='Service',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('description',</span> <span class="pre">&lt;django.db.models.fields.TextField&gt;),</span> <span class="pre">('price',</span> <span class="pre">&lt;django.db.models.fields.DecimalField&gt;),</span> <span class="pre">('duration',</span> <span class="pre">&lt;django.db.models.fields.DurationField&gt;),</span> <span class="pre">('service_type',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('created_at',</span> <span class="pre">&lt;django.db.models.fields.DateTimeField&gt;)]&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='Cart',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.OneToOneField&gt;)]&gt;,</span> <span class="pre">&lt;CreateModel</span>&#160; <span class="pre">name='CartItem',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('quantity',</span> <span class="pre">&lt;django.db.models.fields.PositiveIntegerField&gt;),</span> <span class="pre">('cart',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('product',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;),</span> <span class="pre">('service',</span> <span class="pre">&lt;django.db.models.fields.related.ForeignKey&gt;)],</span> <span class="pre">options={'unique_together':</span> <span class="pre">{('cart',</span> <span class="pre">'product',</span> <span class="pre">'service')}}&gt;]</span></em><a class="headerlink" href="#stqpictures.migrations.0003_service_cart_cartitem.Migration.operations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-stqpictures.migrations.0004_competitionentry">
+<span id="stqpictures-migrations-0004-competitionentry-module"></span><h2>stqpictures.migrations.0004_competitionentry module<a class="headerlink" href="#module-stqpictures.migrations.0004_competitionentry" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stqpictures.migrations.0004_competitionentry.Migration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stqpictures.migrations.0004_competitionentry.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stqpictures/migrations/0004_competitionentry.html#Migration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stqpictures.migrations.0004_competitionentry.Migration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0004_competitionentry.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('stqpictures',</span> <span class="pre">'0003_service_cart_cartitem')]</span></em><a class="headerlink" href="#stqpictures.migrations.0004_competitionentry.Migration.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0004_competitionentry.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='CompetitionEntry',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('name',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('email',</span> <span class="pre">&lt;django.db.models.fields.EmailField&gt;),</span> <span class="pre">('phone',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('category',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('upload_link',</span> <span class="pre">&lt;django.db.models.fields.URLField&gt;),</span> <span class="pre">('submission_date',</span> <span class="pre">&lt;django.db.models.fields.DateTimeField&gt;),</span> <span class="pre">('active',</span> <span class="pre">&lt;django.db.models.fields.BooleanField&gt;)]&gt;]</span></em><a class="headerlink" href="#stqpictures.migrations.0004_competitionentry.Migration.operations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-stqpictures.migrations.0005_video">
+<span id="stqpictures-migrations-0005-video-module"></span><h2>stqpictures.migrations.0005_video module<a class="headerlink" href="#module-stqpictures.migrations.0005_video" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stqpictures.migrations.0005_video.Migration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stqpictures.migrations.0005_video.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stqpictures/migrations/0005_video.html#Migration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stqpictures.migrations.0005_video.Migration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0005_video.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('stqpictures',</span> <span class="pre">'0004_competitionentry')]</span></em><a class="headerlink" href="#stqpictures.migrations.0005_video.Migration.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0005_video.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='Video',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('title',</span> <span class="pre">&lt;django.db.models.fields.CharField&gt;),</span> <span class="pre">('youtube_url',</span> <span class="pre">&lt;django.db.models.fields.URLField&gt;),</span> <span class="pre">('video_file',</span> <span class="pre">&lt;django.db.models.fields.files.FileField&gt;)]&gt;]</span></em><a class="headerlink" href="#stqpictures.migrations.0005_video.Migration.operations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-stqpictures.migrations.0006_video_uploaded_by">
+<span id="stqpictures-migrations-0006-video-uploaded-by-module"></span><h2>stqpictures.migrations.0006_video_uploaded_by module<a class="headerlink" href="#module-stqpictures.migrations.0006_video_uploaded_by" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stqpictures.migrations.0006_video_uploaded_by.Migration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stqpictures.migrations.0006_video_uploaded_by.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stqpictures/migrations/0006_video_uploaded_by.html#Migration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stqpictures.migrations.0006_video_uploaded_by.Migration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0006_video_uploaded_by.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('stqpictures',</span> <span class="pre">'0005_video'),</span> <span class="pre">('auth',</span> <span class="pre">'__first__')]</span></em><a class="headerlink" href="#stqpictures.migrations.0006_video_uploaded_by.Migration.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0006_video_uploaded_by.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AddField</span>&#160; <span class="pre">model_name='video',</span> <span class="pre">name='uploaded_by',</span> <span class="pre">field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</span></em><a class="headerlink" href="#stqpictures.migrations.0006_video_uploaded_by.Migration.operations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-stqpictures.migrations.0007_profile">
+<span id="stqpictures-migrations-0007-profile-module"></span><h2>stqpictures.migrations.0007_profile module<a class="headerlink" href="#module-stqpictures.migrations.0007_profile" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stqpictures.migrations.0007_profile.Migration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stqpictures.migrations.0007_profile.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stqpictures/migrations/0007_profile.html#Migration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stqpictures.migrations.0007_profile.Migration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0007_profile.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('stqpictures',</span> <span class="pre">'0006_video_uploaded_by'),</span> <span class="pre">('auth',</span> <span class="pre">'__first__')]</span></em><a class="headerlink" href="#stqpictures.migrations.0007_profile.Migration.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0007_profile.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;CreateModel</span>&#160; <span class="pre">name='Profile',</span> <span class="pre">fields=[('id',</span> <span class="pre">&lt;django.db.models.fields.BigAutoField&gt;),</span> <span class="pre">('image',</span> <span class="pre">&lt;django.db.models.fields.files.ImageField&gt;),</span> <span class="pre">('user',</span> <span class="pre">&lt;django.db.models.fields.related.OneToOneField&gt;)]&gt;]</span></em><a class="headerlink" href="#stqpictures.migrations.0007_profile.Migration.operations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more">
+<span id="stqpictures-migrations-0008-remove-profile-image-profile-bio-and-more-module"></span><h2>stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more module<a class="headerlink" href="#module-stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more.Migration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more.</span></span><span class="sig-name descname"><span class="pre">Migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stqpictures/migrations/0008_remove_profile_image_profile_bio_and_more.html#Migration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more.Migration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Migration</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more.Migration.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('stqpictures',</span> <span class="pre">'0007_profile')]</span></em><a class="headerlink" href="#stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more.Migration.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more.Migration.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;RemoveField</span>&#160; <span class="pre">model_name='profile',</span> <span class="pre">name='image'&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='profile',</span> <span class="pre">name='bio',</span> <span class="pre">field=&lt;django.db.models.fields.TextField&gt;&gt;,</span> <span class="pre">&lt;AddField</span>&#160; <span class="pre">model_name='profile',</span> <span class="pre">name='profile_picture',</span> <span class="pre">field=&lt;django.db.models.fields.files.ImageField&gt;&gt;]</span></em><a class="headerlink" href="#stqpictures.migrations.0008_remove_profile_image_profile_bio_and_more.Migration.operations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-stqpictures.migrations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-stqpictures.migrations" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="stqpictures.html" class="btn btn-neutral float-left" title="stqpictures package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="stqpictures" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, STQMedia_Africa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

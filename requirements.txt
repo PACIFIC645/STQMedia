@@ -1,0 +1,40 @@
+# STQMedia Project Requirements
+
+## Core Django & Production Dependencies
+asgiref<4,>=3.6.0               # Async support for Django (ASGI support)
+django-ckeditor                 # For rich text editing (optional, if needed)
+django-cors-headers             # For handling Cross-Origin Resource Sharing (CORS)
+djangorestframework             # Required for APIs
+dj-database-url                 # For database configuration from environment variables
+gunicorn                        # For production WSGI server
+Pillow                          # For image uploads and processing
+psycopg2-binary>=2.9            # PostgreSQL database adapter
+python-decouple                 # For managing environment variables
+sqlparse>=0.3.1                 # SQL formatting library for Django database
+sphinx_rtd_theme                # ReadTheDocs theme for Sphinx
+whitenoise                      # For serving static files in production
+tzdata                          # Timezone data for Django
+
+## Documentation & Build Dependencies
+alabaster==1.0.0
+babel==2.17.0
+certifi==2025.1.31
+charset-normalizer==3.4.1
+docutils==0.21.2
+idna==3.10
+imagesize==1.4.1
+Jinja2==3.1.5
+MarkupSafe==3.0.2
+packaging==24.2                # Dependency management for Python projects
+Pygments==2.19.1
+requests==2.32.3
+roman-numerals-py==3.1.0
+snowballstemmer==2.2.0
+Sphinx==8.2.1
+sphinxcontrib-applehelp==2.0.0
+sphinxcontrib-devhelp==2.0.0
+sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-qthelp==2.0.0
+sphinxcontrib-serializinghtml==2.0.0
+urllib3==2.3.0

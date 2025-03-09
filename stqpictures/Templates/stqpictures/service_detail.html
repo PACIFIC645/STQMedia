@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="display-5 mb-4">{{ service.name }}</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            {% if service.image %}
+            <img src="{{ service.image.url }}" class="img-fluid rounded" alt="{{ service.name }}">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <!-- Currency Selector -->
+            <form method="get" action="{% url 'service_detail' service.pk %}" class="mb-3">
+                <select name="currency" class="form-select" onchange="this.form.submit()">
+                    <option value="USD" {% if selected_currency == 'USD' %}selected{% endif %}>USD (US Dollar)</option>
+                    <option value="ZAR" {% if selected_currency == 'ZAR' %}selected{% endif %}>ZAR (South African Rand)</option>
+                    <option value="NGN" {% if selected_currency == 'NGN' %}selected{% endif %}>NGN (Nigerian Naira)</option>
+                </select>
+            </form>
+
+            <h3 class="h4 price-zar" data-price-zar="{{ service.price }}">
+                Price: 
+                {% if selected_currency == 'ZAR' %}
+                  ZAR {{ service.price|floatformat:2 }}
+                {% else %}
+                  {{ selected_currency }} {{ service.converted_price|floatformat:2 }}
+                {% endif %}
+            </h3>
+            <p class="mt-3">{{ service.description }}</p>
+
+            <!-- Add To Cart Form -->
+            <form class="add-to-cart-form mt-4" method="POST" data-item-id="{{ service.id }}">
+                {% csrf_token %}
+                <button type="submit" id="add-to-cart-btn" class="btn btn-success">Add to Cart</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+  document.querySelectorAll('.add-to-cart-form').forEach(form => {
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const itemId = this.getAttribute('data-item-id');
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      fetch(`/add-to-cart/${itemId}/`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrfToken
+          },
+          body: JSON.stringify({ item_id: itemId })
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              alert(data.message);
+          }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  });
+</script>
+{% endblock %}

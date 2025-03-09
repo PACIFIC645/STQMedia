@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Exploring the Art of Storytelling Through Media - STQ Media{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="container-fluid blog-hero">
+  <div class="border border-2 border-primary rounded-3 p-2">
+    <div class="position-relative rounded-3" style="background: url('{% static 'stqpictures/images/stqpictures_blog1.jpg' %}') center/cover; height: 400px;">
+      <div class="container text-center">
+        <h1 class="fw-bold display-6 text-outline hover-effect semi-transparent-bg">STQ Media Blog</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Blog Posts Grid -->
+<div class="container py-5">
+  <div class="row g-4">
+    {% for post in blog_posts %}
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card h-100 shadow-sm transition hover-scale">
+          {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="card-img-top img-fluid">
+          {% endif %}
+          <div class="card-body">
+            <h2 class="card-title h5 text-dark">{{ post.title }}</h2>
+            <p class="text-muted small">
+              Published on {{ post.published_date|date:"F d, Y" }} by <strong>STQ Media Team</strong>
+            </p>
+            <p class="card-text">{{ post.content|truncatewords:50 }}</p>
+            <a href="{% url 'stqpictures:blog_detail' post.id %}" class="stretched-link text-decoration-none text-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Comments Section -->
+<div class="container mt-5">
+  <h3 class="h4 fw-bold text-dark">Comments</h3>
+  <div class="bg-light p-4 rounded">
+    <p class="text-muted">No comments yet. Be the first to share your thoughts!</p>
+  </div>
+</div>
+{% endblock %}

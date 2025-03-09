@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home | STQ Media | STQ Pictures{% endblock %}
+
+{% block extra_head %}
+    <!-- Link to CSS built via PostCSS (see package.json "build" script) -->
+    <link href="{% static 'output.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <!-- Swiper Container -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+{% endblock %}
+
+{% block extra_content %}
+<!-- Any extra content can go here -->
+{% endblock %}

@@ -1,0 +1,42 @@
+{% load static %}
+
+<section class="container py-5 position-relative">
+  <!-- Section Header -->
+  <div class="text-center mb-4">
+    <h2 class="h3 fw-bold text-primary">Featured Gallery</h2>
+  </div>
+
+  <!-- Carousel Slider using Swiper -->
+  <div class="swiper-container" style="height: 400px; width: 100%; --swiper-cube-shadow: 0px 0px 10px rgba(0,0,0,0.5);">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" style="background-image: url('{% static 'stqpictures/images/stqpictures_index2.jpg' %}'); background-size: cover; background-position: center;"></div>
+      <div class="swiper-slide" style="background-image: url('{% static 'stqpictures/images/stqpictures_index3.jpg' %}'); background-size: cover; background-position: center;"></div>
+      <div class="swiper-slide" style="background-image: url('{% static 'stqpictures/images/stqpictures_index4.jpg' %}'); background-size: cover; background-position: center;"></div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="swiper-button-prev" id="hero-prev"></div>
+    <div class="swiper-button-next" id="hero-next"></div>
+  </div>
+</section>
+
+<!-- Additional JavaScript -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const swiper = new Swiper(".swiper-container", {
+      slidesPerView: 1,
+      loop: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      effect: "cube",
+      navigation: {
+        nextEl: "#hero-next",
+        prevEl: "#hero-prev",
+      },
+    });
+
+    console.log("Hero section Swiper initialized successfully.");
+  });
+</script>

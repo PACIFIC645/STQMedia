@@ -1,0 +1,41 @@
+{% load static %}
+<!-- Swiper Gallery Preview Slider -->
+<div class="swiper-container" style="height: 300px; width: 100%;">
+  <div class="swiper-wrapper">
+    {% for image in preview_images %}
+      <div class="swiper-slide">
+        <!-- Wrap the image in a container that creates a blurred background -->
+        <div class="gallery-img-wrapper" style="background-image: url('{% static 'gallery/' %}{{ image }}');">
+          <img src="{% static 'gallery/' %}{{ image }}" class="gallery-img img-fluid rounded shadow" alt="Gallery Preview">
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <!-- Navigation Controls -->
+  <div class="swiper-button-prev" id="gallery-prev"></div>
+  <div class="swiper-button-next" id="gallery-next"></div>
+</div>
+
+{% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Optional: add a passive listener for better performance
+    document.addEventListener("touchstart", function() {}, { passive: true });
+
+    const swiper = new Swiper(".swiper-container", {
+      slidesPerView: 3,
+      spaceBetween: 15,
+      loop: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false
+      },
+      navigation: {
+        nextEl: "#gallery-next",
+        prevEl: "#gallery-prev"
+      }
+    });
+    console.log("Swiper initialized successfully.");
+  });
+</script>
+{% endblock %}

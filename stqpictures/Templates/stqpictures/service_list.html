@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Our Services</h1>
+    
+    <!-- Currency and Sort Selectors -->
+    <div class="d-flex flex-wrap gap-3 mb-4">
+        <form method="get" action="{% url 'stqpictures:service_list' %}">
+            <select name="currency" class="form-select form-select-sm" onchange="this.form.submit()">
+                <option value="ZAR" {% if selected_currency == 'ZAR' %}selected{% endif %}>ZAR (South African Rand)</option>
+                <option value="USD" {% if selected_currency == 'USD' %}selected{% endif %}>USD (US Dollar)</option>
+                <option value="NGN" {% if selected_currency == 'NGN' %}selected{% endif %}>NGN (Nigerian Naira)</option>
+            </select>
+        </form>
+    
+        <form method="get" action="{% url 'stqpictures:service_list' %}">
+            <select name="sort" class="form-select form-select-sm" onchange="this.form.submit()">
+                <option value="name-a-z" {% if sort_option == 'name-a-z' %}selected{% endif %}>Name (A-Z)</option>
+                <option value="name-z-a" {% if sort_option == 'name-z-a' %}selected{% endif %}>Name (Z-A)</option>
+                <option value="price-low-high" {% if sort_option == 'price-low-high' %}selected{% endif %}>Price (Low-High)</option>
+                <option value="price-high-low" {% if sort_option == 'price-high-low' %}selected{% endif %}>Price (High-Low)</option>
+            </select>
+        </form>
+    </div>
+    
+    <div class="row g-4">
+        {% for service in services %}
+        <div class="col-md-4">
+            <div class="card h-100">
+                {% if service.image %}
+                <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.name }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ service.name }}</h5>
+                    <p class="card-text">{{ service.description|truncatewords:20 }}</p>
+                    <p class="card-text price-zar" data-price-zar="{{ service.price }}">
+                        {% if selected_currency == 'ZAR' %}
+                          ZAR {{ service.price|floatformat:2 }}
+                        {% else %}
+                          {{ selected_currency }} {{ service.converted_price|floatformat:2 }}
+                        {% endif %}
+                    </p>
+                    <a href="{{ service.get_absolute_url }}" class="btn btn-primary mt-auto">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between mt-4">
+        {% if services.has_previous %}
+        <a href="?page={{ services.previous_page_number }}&currency={{ selected_currency }}" class="btn btn-outline-primary">&laquo; Previous</a>
+        {% endif %}
+        {% if services.has_next %}
+        <a href="?page={{ services.next_page_number }}&currency={{ selected_currency }}" class="btn btn-outline-primary">Next &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

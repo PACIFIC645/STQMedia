@@ -1,0 +1,2 @@
+Your Node-related processes (PostCSS and Rollup) running in PowerShell are completely separate from your Python virtual environment running in WSL. 
+In other words, running your Django project in WSL does not affect or disable your Node environment in PowerShell.

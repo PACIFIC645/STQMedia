@@ -1,0 +1,81 @@
+{
+    "service": "Music Video Production",
+    "packages": [
+      {
+        "name": "Cinematic Small Set",
+        "price": 5800,
+        "duration": "1 day",
+        "features": [
+          "Basic lighting",
+          "2-camera setup",
+          "Edited 2-minute video"
+        ]
+      },
+      {
+        "name": "Cinematic Rich Set",
+        "price": 11600,
+        "duration": "2 days",
+        "features": [
+          "Advanced lighting",
+          "3-camera setup",
+          "Edited 3-minute video",
+          "Drone footage"
+        ]
+      },
+      {
+        "name": "Filmic SuperRich Set",
+        "price": 23200,
+        "duration": "3 days",
+        "features": [
+          "High-end lighting",
+          "4-camera setup",
+          "Edited 4-minute video",
+          "Drone footage",
+          "Special effects"
+        ]
+      },
+      {
+        "name": "Graphic Mainstream Set",
+        "price": 46400,
+        "duration": "4 days",
+        "features": [
+          "High-end lighting",
+          "5-camera setup",
+          "Edited 5-minute video",
+          "Drone footage",
+          "Advanced graphics",
+          "Color grading"
+        ]
+      },
+      {
+        "name": "Movie Set",
+        "price": 92800,
+        "duration": "5 days",
+        "features": [
+          "Professional crew",
+          "High-end equipment",
+          "Edited 10-minute video",
+          "Drone footage",
+          "Advanced graphics",
+          "Color grading",
+          "Sound design"
+        ]
+      }
+    ],
+    "additional_services": {
+      "location_scouting_national": 3500,
+      "location_scouting_regional": 1500,
+      "model_hire_per_head": 1650,
+      "makeup_artist_per_actor": 450,
+      "wardrobe_arrangement": "Available upon request"
+    },
+    "booking_details": {
+      "name": "",
+      "email": "",
+      "phone": "",
+      "preferred_dates": [],
+      "selected_package": "",
+      "additional_requests": ""
+    }
+  }
+  

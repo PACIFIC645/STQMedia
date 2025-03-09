@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nature Gallery - STQ Media{% endblock %}
+
+{% block content %}
+<main class="container py-5">
+  <section>
+    <h2 class="display-5 fw-bold text-center mb-4">Nature Inspired!</h2>
+    <p class="lead text-center text-muted mb-4">
+      A visual journey through the breathtaking beauty of nature, captured by STQ Media.
+    </p>
+
+    <div class="row g-4">
+      {% for counter in range_nature %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <a href="{% static 'stqpictures/images/nature' %}{{ counter }}.jpg" rel="lightbox">
+            <img src="{% static 'stqpictures/images/nature' %}{{ counter }}.jpg" 
+                 alt="Nature Image {{ counter }}" 
+                 class="img-fluid rounded shadow">
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}

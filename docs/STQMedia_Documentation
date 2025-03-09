@@ -1,0 +1,221 @@
+MARKDOWN that documents the entire Sphinx setup, dependency management (with two categories), and build/verification process. 
+You can add or adjust this to your project’s documentation file:
+
+---
+
+# Sphinx Documentation Setup for STQMedia
+
+This section explains how to set up, build, and verify your Sphinx documentation for the STQMedia project using a Linux (or WSL) environment with Bash. It also covers updating the project’s dependencies, including the split between core (Django/production) and documentation/build packages.
+
+---
+
+## 1. Environment Setup
+
+Ensure you’re using a Linux environment (or WSL on Windows) and that your virtual environment is activated. For example, your prompt should display something like:
+
+
+(venv) pacific645@DESKTOP-JV87NSJ:~$
+
+
+If you haven’t already, create and activate your virtual environment:
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+---
+
+## 2. Dependencies
+
+Our project uses two kinds of dependencies:
+
+### a. Production (Django) Dependencies
+
+These are needed for running the STQMedia Django project:
+
+```ini
+asgiref<4,>=3.6.0               # Async support for Django (ASGI)
+django==5.1.5                   # Replace with the version you are using
+django-ckeditor                 # For rich text editing (optional)
+django-cors-headers             # For handling CORS
+djangorestframework             # Required for APIs
+gunicorn                        # Production WSGI server
+Pillow                          # For image uploads and processing
+psycopg2-binary>=2.9            # PostgreSQL database adapter
+python-decouple               # Environment variable management
+sqlparse>=0.3.1                 # SQL formatting library for Django
+tzdata                          # Timezone data support
+whitenoise                      # Static files serving in production
+```
+
+### b. Documentation/Build Dependencies
+
+These are used to build and style our Sphinx documentation:
+
+```ini
+alabaster==1.0.0
+babel==2.17.0
+certifi==2025.1.31
+charset-normalizer==3.4.1
+docutils==0.21.2
+idna==3.10
+imagesize==1.4.1
+Jinja2==3.1.5
+MarkupSafe==3.0.2
+packaging==24.2
+Pygments==2.19.1
+requests==2.32.3
+roman-numerals-py==3.1.0
+snowballstemmer==2.2.0
+Sphinx==8.2.1
+sphinx_rtd_theme                # Read the Docs theme
+sphinxcontrib-applehelp==2.0.0
+sphinxcontrib-devhelp==2.0.0
+sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-qthelp==2.0.0
+sphinxcontrib-serializinghtml==2.0.0
+urllib3==2.3.0
+```
+
+You can add these dependencies to your `requirements.txt` accordingly. Then install all requirements by running:
+
+```bash
+pip install -r requirements.txt
+```
+
+If you ever get an error (e.g., for `sphinx_rtd_theme`), install it individually:
+
+```bash
+pip install sphinx_rtd_theme
+```
+
+---
+
+## 3. Sphinx Configuration
+
+Inside your Sphinx source directory (typically `STQMEDIA/source`), update your `conf.py` to ensure Django is set up correctly. For example:
+
+```python
+import os
+import sys
+
+# Add the parent directory, which contains both the 'stqmedia' project (with settings)
+# and the 'stqpictures' app, to the Python path.
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+import django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stqmedia.settings")
+django.setup()
+```
+
+This configuration makes sure Django settings (from `stqmedia/settings.py`) are loaded before Sphinx processes autodoc directives.  
+
+---
+
+## 4. Documentation Structure
+
+For example, your main documentation file (`index.rst`) might look like this:
+
+```rst
+STQMedia Documentation
+======================
+
+Add your content using ``reStructuredText`` syntax. See the
+`reStructuredText documentation <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
+for details.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   stqpictures
+   modules
+```
+
+Here, both `stqpictures.rst` and `modules.rst` are included in the toctree.  
+In `modules.rst`, you could have:
+
+```rst
+.. automodule:: stqpictures
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :no-index:   # Use this if you face duplicate description warnings
+```
+
+---
+
+## 5. Building and Verifying Your Documentation
+
+### Building the Docs
+
+Clean any previous builds and then build the HTML files:
+
+```bash
+make clean
+make html
+```
+
+You should see Sphinx output similar to:
+
+```
+Running Sphinx v8.2.1
+...
+build succeeded, 2 warnings.
+The HTML pages are in build/html.
+```
+
+*Note:* If you see warnings like:
+- **WindowsPath Warning:**  
+  “loading pickled environment... failed: cannot instantiate 'WindowsPath' on your system”
+  
+  This is due to a Windows cache being loaded in a Linux/WSL environment. It’s safe to ignore or remove the `build/doctrees` directory.
+  
+- **Duplicate Object Description Warning:**  
+  You can add `:no-index:` to one of your autodoc directives if needed.
+  
+- **Document Not in Toctree Warning:**  
+  Either add the document to your toctree in `index.rst` or mark it as orphan in the document.
+
+### Verifying the Build
+
+#### Option A: Open with Windows Explorer (from WSL)
+
+```bash
+explorer.exe build/html
+```
+
+Then open `index.html` in your browser.
+
+#### Option B: Serve with a Python HTTP Server
+
+1. Navigate to your build directory:
+
+   ```bash
+   cd build/html
+   ```
+
+2. Start the server:
+
+   ```bash
+   python -m http.server
+   ```
+
+3. Visit [http://localhost:8000](http://localhost:8000) in your browser to browse the docs as they would appear when hosted.
+
+---
+
+## 6. Troubleshooting
+
+If during the build you encounter errors like:
+
+```
+To report this error to the developers, please open an issue at <https://github.com/sphinx-doc/sphinx/issues/>
+make: *** [Makefile:20: html] Error 2
+```
+
+- Verify that all required packages (such as `dj-database-url`, `sphinx_rtd_theme`, etc.) are installed in your virtual environment.
+- Check that your `conf.py` is correctly setting the paths and environment variables.
+- Make sure your project’s folder structure (with `stqmedia` for settings and `stqpictures` for your Django app) matches your configuration.

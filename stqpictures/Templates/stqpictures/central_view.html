@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Central Navigation - STQ Media{% endblock %}
+
+{% block content %}
+  <!-- Sticky Header for the Central Dashboard -->
+  <div class="sticky-top bg-white shadow py-3 mb-4">
+    <h1 class="text-center h3 text-dark mb-0">Central Dashboard</h1>
+  </div>
+  
+  <div class="container py-4">
+    <p class="lead text-center mb-4">Navigate through different sections:</p>
+    
+    <!-- Responsive Grid for Available Pages -->
+    <div class="row g-4">
+      {% for page in page_names %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="bg-white rounded shadow p-3 text-center transition hover-scale">
+            {% if request.resolver_match.url_name == page %}
+              <span class="h5 text-primary fw-bold">{{ page|title }}</span>
+            {% else %}
+              <a href="{% url 'stqpictures:'|add:page %}" class="h5 text-dark text-decoration-none hover-text-primary">
+                {{ page|title }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-12 text-center text-muted">
+          No pages available.
+        </div>
+      {% endfor %}
+    </div>
+    
+    <!-- Optional Navigation Buttons for Special Pages -->
+    {% if show_back_forward %}
+      <div class="mt-5 text-center">
+        {% include "stqpictures/includes/nav_buttons.html" %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

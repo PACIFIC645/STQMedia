@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Saved for Later{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h1 class="display-5 fw-bold text-center mb-4">Saved for Later</h1>
+  
+  {% if saved_items %}
+    <div class="row g-4">
+      {% for item in saved_items %}
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="h6 fw-bold">{{ item.product.name }}</h2>
+            <p class="mb-3">Price: ${{ item.product.price }}</p>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-success">Move to Cart</button>
+              <a href="{% url 'stqpictures:remove_from_saved' item.id %}" class="btn btn-danger">Remove</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-center text-muted mt-4">No items saved for later.</p>
+  {% endif %}
+  
+  <div class="text-center mt-4">
+    <a href="{% url 'stqpictures:product_list' %}" class="text-decoration-underline text-primary">Continue Shopping</a>
+  </div>
+</div>
+{% endblock %}

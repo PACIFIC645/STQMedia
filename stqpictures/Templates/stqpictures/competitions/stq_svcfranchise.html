@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-dark text-white" style="min-height: 100vh;">
+  <!-- Hero Section -->
+  <section class="position-relative bg-black" style="height: 24rem;">
+    <img src="{% static 'stqpictures/images/stq_svcfranchise.png' %}" alt="Competition Banner" class="position-absolute w-100 h-100" style="object-fit: cover; opacity: 0.5;">
+    <div class="position-relative d-flex flex-column justify-content-center align-items-center h-100">
+      <h1 class="display-4 fw-bold">🎤 STQPictures Music Video Competition</h1>
+      <p class="lead mt-3">Submit your best work &amp; stand a chance to win a <strong>professional music video production!</strong></p>
+    </div>
+  </section>
+
+  <!-- Competition Selection Buttons -->
+  <section class="container my-4">
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <button class="btn btn-primary btn-lg">Music Video Competition</button>
+      <button class="btn btn-secondary btn-lg disabled">Documentary (Closed)</button>
+      <button class="btn btn-secondary btn-lg disabled">Motivation (Closed)</button>
+      <button class="btn btn-secondary btn-lg disabled">Films (Closed)</button>
+      <button class="btn btn-secondary btn-lg disabled">Craft (Closed)</button>
+    </div>
+  </section>
+
+  <!-- Competition Entry Form -->
+  <section class="container my-5">
+    <div class="card bg-secondary text-white shadow-lg">
+      <div class="card-body">
+        <h2 class="card-title text-center display-6 mb-4">Enter the Competition</h2>
+        <form method="post" action="{% url 'stqpictures:competition_entry' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary btn-lg w-100">Submit Entry</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top 20 Contestants -->
+  <section class="container my-5">
+    <h2 class="text-center display-5 fw-bold mb-4">🔥 Top 20 Shortlisted Entries</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+      {% for contestant in top_20_contestants %}
+      <div class="col">
+        <div class="card bg-dark text-white h-100 shadow">
+          <div class="card-body text-center">
+            <h3 class="h5 fw-bold">{{ contestant.name }}</h3>
+            <p class="text-muted">{{ contestant.get_category_display }}</p>
+            <a href="{{ contestant.upload_link }}" target="_blank" class="text-decoration-underline text-info">View Entry</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Winner Section -->
+  {% if winner %}
+  <section class="container my-5">
+    <div class="card bg-warning text-dark text-center shadow-lg">
+      <div class="card-body">
+        <h2 class="display-4 fw-bold">🏆 Grand Winner</h2>
+        <p class="lead mt-3">Congratulations to <span class="fw-bold">{{ winner.name }}</span> for winning the <strong>Ultimate Music Video Production Package!</strong> 🎬</p>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

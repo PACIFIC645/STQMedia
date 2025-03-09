@@ -1,0 +1,59 @@
+{% load static %}
+
+{% if show_back_forward %}
+  <!-- Back/Home/Forward Controls -->
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <a href="{% url 'stqpictures:home' %}" aria-label="Back" class="btn btn-secondary hover-effect">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+    <a href="{% url 'stqpictures:home' %}" aria-label="Home" class="btn btn-primary hover-effect">
+      <i class="fas fa-home"></i> Home
+    </a>
+    <a href="{% url 'stqpictures:checkout' %}" aria-label="Forward" class="btn btn-secondary hover-effect">
+      Forward <i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
+{% else %}
+  <!-- Primary Navigation -->
+  {% if primary_nav %}
+    <div class="d-flex justify-content-center align-items-center mt-3">
+      {% for nav_item in primary_nav %}
+        <a href="{% url nav_item.url %}" class="btn btn-outline-primary me-2 hover-effect">
+          {{ nav_item.name }}
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Secondary Navigation -->
+  {% if secondary_nav %}
+    <div class="d-flex justify-content-center align-items-center mt-3">
+      {% for nav_item in secondary_nav %}
+        <a href="{% url nav_item.url %}" class="btn btn-outline-secondary me-2 hover-effect">
+          {{ nav_item.name }}
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Fallback: If no nav lists are provided -->
+  {% if not primary_nav and not secondary_nav %}
+    <div class="d-flex justify-content-center align-items-center mt-3">
+      <a href="{% url 'stqpictures:search' %}" class="btn btn-outline-primary me-2 hover-effect">
+        <i class="fas fa-search"></i> Search
+      </a>
+      <a href="{% url 'stqpictures:nature' %}" class="btn btn-success me-2 hover-effect">
+        <i class="fas fa-leaf"></i> Nature
+      </a>
+      <a href="{% url 'stqpictures:mzansi' %}" class="btn btn-danger me-2 hover-effect">
+        <i class="fas fa-sun"></i> Mzansi
+      </a>
+      <a href="{% url 'stqpictures:cart' %}" class="btn btn-info me-2 hover-effect">
+        <i class="fas fa-shopping-cart"></i> Add to Cart
+      </a>
+      <a href="{% url 'stqpictures:save_for_later' %}" class="btn btn-warning hover-effect">
+        <i class="fas fa-heart"></i> Saved for Later
+      </a>
+    </div>
+  {% endif %}
+{% endif %}

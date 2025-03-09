@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile - STQ Media{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Background Image & Overlay -->
+<section class="position-relative bg-dark text-white text-center py-5" 
+         style="background: url('{% static 'stqpictures/images/profile_hero.jpg' %}') center/cover no-repeat;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-50"></div>
+    <h1 class="contact-header">Welcome, {{ user.username }}</h1>
+</section>
+
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-body text-center">
+                    <h2 class="mb-3">Your Profile</h2>
+
+                    <!-- Profile Picture -->
+                    <div class="profile-picture mb-3">
+                        <img id="profilePreview"
+                             src="{{ user.profile.profile_picture.url }}" 
+                             class="rounded-circle img-fluid border shadow"
+                             style="width: 150px; height: 150px; object-fit: cover;"
+                             alt="Profile Picture">
+                    </div>
+
+                    <!-- Profile Info -->
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+
+                    <!-- Update Profile Picture Form -->
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="imageUpload" class="form-label">Choose New Profile Picture</label>
+                            <input type="file" id="imageUpload" name="profile_picture" class="form-control" accept="image/*">
+                            <small class="text-muted">Max: 2MB | JPG, PNG</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile Image</button>
+                    </form>
+
+                    <hr>
+                    <a href="{% url 'stqpictures:logout' %}" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- JavaScript for Live Image Preview -->
+<script>
+    document.getElementById('imageUpload').addEventListener('change', function(event) {
+        let reader = new FileReader();
+        reader.onload = function() {
+            let preview = document.getElementById('profilePreview');
+            preview.src = reader.result;
+        };
+        if(event.target.files[0]) {
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    });
+</script>
+{% endblock %}

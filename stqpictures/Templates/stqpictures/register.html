@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - STQ Media{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="border border-2 border-primary rounded-3 p-2">
+        <section class="position-relative bg-dark text-white text-center py-5 rounded-3"
+            style="background: url('{% static 'stqpictures/images/register_hero.jpg' %}') center/cover no-repeat;">
+            <div class="position-relative">
+                <h1 class="contact-header text-outline">Create Your Account</h1>
+            </div>
+        </section>
+    </div>
+</div>
+
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Sign Up</h2>
+                    <form method="POST">
+                        {% csrf_token %}
+                    
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Username</label>
+                            {{ form.username }}
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            {{ form.email }}
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="id_password1" class="form-label">Password</label>
+                            {{ form.password1 }}
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="id_password2" class="form-label">Confirm Password</label>
+                            {{ form.password2 }}
+                        </div>
+                    
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

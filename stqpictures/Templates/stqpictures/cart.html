@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block content %}
+<section class="bg-white py-5">
+  <div class="container">
+    <h2 class="h4 fw-bold">Your Cart</h2>
+    <div class="row mt-4">
+      <div class="col">
+        {% if cart_items %}
+          {% for item in cart_items %}
+          <div class="card mb-3">
+            <div class="row g-0 align-items-center">
+              <div class="col-auto">
+                <a href="#">
+                  {% if item.product.image_url %}
+                    <img src="{{ item.product.image_url }}" class="img-fluid" alt="{{ item.product.name }}" style="width:80px; height:80px;">
+                  {% else %}
+                    <img src="{{ item.product.image_url_dark }}" class="img-fluid" alt="{{ item.product.name }}" style="width:80px; height:80px;">
+                  {% endif %}
+                </a>
+              </div>
+              <div class="col">
+                <div class="card-body">
+                  <a href="#" class="h6 text-decoration-none">{{ item.product.name }}</a>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button type="button" class="btn btn-link p-0">Remove</button>
+                    <p class="mb-0 fw-bold">${{ item.product.price }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-center text-muted">Your cart is empty.</p>
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="text-center mt-4">
+      <p class="h5 fw-bold">Total: ${{ total_price }}</p>
+      <a href="{% url 'stqpictures:checkout' %}" class="btn btn-success mt-3">Proceed to Checkout</a>
+    </div>
+    
+    <div class="mt-5">
+      <h2 class="h5 fw-bold text-center">Exclusive Services</h2>
+      <div class="row mt-4">
+        {% for service in service_list %}
+        <div class="col-md-4 mb-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h3 class="h6">{{ service.name }}</h3>
+              <p class="small text-muted">{{ service.description }}</p>
+              <a href="{% url 'stqpictures:service_detail' service.id %}" class="btn btn-outline-primary btn-sm">Learn More</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <div class="text-center mt-3">
+      <a href="{% url 'stqpictures:product_list' %}" class="text-decoration-underline text-primary">Continue Shopping</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

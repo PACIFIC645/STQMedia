@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-dark text-white" style="min-height: 100vh;">
+  <!-- Hero Section -->
+  <section class="position-relative" style="height: 90vh;">
+    <img src="{% static 'stqpictures/images/musicvideoprod_hero.png' %}" alt="Music Video Production" class="position-absolute w-100 h-100" style="object-fit: cover; opacity: 0.3;">
+    <div class="position-relative d-flex flex-column justify-content-center align-items-center h-100">
+      <h1 class="display-3 fw-bold text-uppercase">{{ service }}</h1>
+      <p class="lead mt-3">High-end music video production tailored for artists and brands.</p>
+      <a href="{% url 'service_booking' %}" class="btn btn-primary btn-lg mt-4">Book Your Production Now</a>
+    </div>
+  </section>
+
+  <!-- Packages Section -->
+  <section class="container my-5">
+    <h2 class="text-center display-5 fw-bold mb-4">📹 Choose Your Production Package</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for package in packages %}
+      <div class="col">
+        <div class="card bg-secondary text-white h-100 shadow border border-secondary">
+          <div class="card-body d-flex flex-column">
+            <h3 class="card-title h4 fw-bold mb-3">{{ package.name }}</h3>
+            <p class="text-info fs-4 mb-3">R{{ package.price }}</p>
+            <p class="fw-semibold">Duration: {{ package.duration }}</p>
+            <ul class="list-unstyled mb-3">
+              {% for feature in package.features %}
+              <li>✔ {{ feature }}</li>
+              {% endfor %}
+            </ul>
+            <a href="{% url 'service_booking' %}" class="btn btn-primary mt-auto">Book Now</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Additional Services Section -->
+  <section class="container my-5">
+    <h2 class="text-center display-5 fw-bold mb-4">📌 Additional Services</h2>
+    <div class="text-muted fs-5">
+      <p>Location Scouting (National): R{{ additional_services.location_scouting_national }}</p>
+      <p>Location Scouting (Regional): R{{ additional_services.location_scouting_regional }}</p>
+      <p>Model Hire (Per Head): R{{ additional_services.model_hire_per_head }}</p>
+      <p>Makeup Artist (Per Actor): R{{ additional_services.makeup_artist_per_actor }}</p>
+      <p>Wardrobe Arrangement: {{ additional_services.wardrobe_arrangement }}</p>
+    </div>
+  </section>
+
+  <!-- Call-to-Action Section -->
+  <section class="container my-5">
+    <div class="card bg-dark text-white shadow-lg text-center">
+      <div class="card-body">
+        <h2 class="display-5 fw-bold mb-3">🎥 Ready to Bring Your Vision to Life?</h2>
+        <p class="lead mb-4">Let our expert team handle your production with state-of-the-art equipment and top-tier creativity.</p>
+        <a href="{% url 'service_booking' %}" class="btn btn-primary btn-lg">Get Started Now</a>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

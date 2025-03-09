@@ -1,0 +1,76 @@
+{% load static %}
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+    <div class="container d-flex justify-content-between align-items-center">
+      <!-- Branding: Logo + STQ Pictures with a modern effect -->
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'stqpictures:home' %}">
+        <img src="{% static 'stqpictures/images/logo.png' %}" 
+             alt="STQ Media Logo" 
+             width="220" 
+             height="160">
+        <span class="icon-button textured-title text-gradient">STQ Pictures</span>
+      </a>
+
+      <!-- Profile Button (Positioned Right) -->
+      {% if user.is_authenticated %}
+        <a href="{% url 'stqpictures:profile' %}" 
+           class="btn btn-outline-primary me-3 rounded-pill px-4 py-2 hover-effect">
+          <i class="fas fa-user-circle"></i> Profile
+        </a>
+      {% else %}
+        <button class="btn btn-outline-secondary me-3 rounded-pill px-4 py-2 disabled">
+          <i class="fas fa-user-circle"></i> Profile
+        </button>
+      {% endif %}
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#primaryNavbar" aria-controls="primaryNavbar" 
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="primaryNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'stqpictures:home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'stqpictures:about' %}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'stqpictures:contact' %}">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'stqpictures:gallery' %}">Gallery</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'stqpictures:blog_list' %}">Blog</a>
+          </li>
+
+          <!-- Authentication Navigation -->
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'stqpictures:checkout' %}">Checkout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="{% url 'stqpictures:logout' %}">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'stqpictures:login' %}">
+                <i class="fas fa-sign-in-alt"></i> Login
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'stqpictures:register' %}">
+                <i class="fas fa-user-plus"></i> Register
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

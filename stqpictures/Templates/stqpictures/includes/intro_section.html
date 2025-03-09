@@ -1,0 +1,83 @@
+{% load static %}
+<section class="container py-5">
+  <!-- Section Header -->
+  <div class="mb-5 text-center">
+    <h2 class="fw-bold display-4 text-outline hover-effect semi-transparent-bg">Single Top Quest</h2>
+  </div>
+
+  <!-- Main Content Cards -->
+  <div class="row g-4">
+    <!-- Image & Description Card -->
+    <div class="col-12">
+      <div class="card shadow-sm transition hover-scale">
+        <div class="row g-0 align-items-center">
+          <!-- Image Container -->
+          <div class="col-md-6">
+            <a href="#">
+              <img src="{% static 'stqpictures/images/stqpictures_index1.jpg' %}" 
+                   alt="Model in Action" 
+                   class="img-fluid rounded-start hover-scale">
+            </a>
+          </div>
+          <!-- Text Container -->
+          <div class="col-md-6">
+            <div class="card-body">
+              <p class="card-text text-secondary fs-5">
+                STQ Media is a pacesetting film, music, photography, and publishing entity established in 2006.
+                Known for redefining media artistry, we bring fresh ideas and perspectives to every project.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Video Card 1 -->
+    <div class="col-12">
+      <div class="card shadow-sm transition hover-scale">
+        <div class="ratio ratio-16x9">
+          <iframe class="rounded hover-scale"
+                  src="https://www.youtube-nocookie.com/embed/6zG4APbC8H8"
+                  title="Gizz - Akandazi Lo (Official Music Video)"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Card 2 -->
+    <div class="col-12">
+      <div class="card shadow-sm transition hover-scale">
+        <div class="ratio ratio-16x9">
+          <iframe class="rounded hover-scale"
+                  src="https://www.youtube-nocookie.com/embed/dJ43kbQRzGo"
+                  title="Scent of Freedom"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional Video Section Card -->
+    <div class="col-12">
+      <div class="card shadow-sm transition hover-scale">
+        {% if video.video_url %}
+          <div class="ratio ratio-16x9">
+            <iframe class="rounded hover-scale" 
+                    src="{{ video.video_url }}" 
+                    allowfullscreen>
+            </iframe>
+          </div>
+        {% else %}
+          <video class="video-js vjs-default-skin w-100 rounded hover-scale" controls preload="auto" data-setup="{}">
+            <source src="{{ video.video_file.url }}" type="video/mp4">
+          </video>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

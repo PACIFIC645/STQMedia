@@ -1,0 +1,67 @@
+<!-- product_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-4">
+  <h1 class="mb-4">{{ product.name }}</h1>
+
+  <div class="row">
+    <div class="col-md-6">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      <!-- Currency Selector -->
+      <form method="get" action="{% url 'stqpictures:product_detail' product.pk %}"> class="mb-3">
+        <select name="currency" class="form-select" onchange="this.form.submit()">
+          <option value="USD" {% if selected_currency == 'USD' %}selected{% endif %}>USD (US Dollar)</option>
+          <option value="ZAR" {% if selected_currency == 'ZAR' %}selected{% endif %}>ZAR (South African Rand)</option>
+          <option value="NGN" {% if selected_currency == 'NGN' %}selected{% endif %}>NGN (Nigerian Naira)</option>
+        </select>
+      </form>
+      
+      <h3 class="mb-3">
+        {% if selected_currency == 'ZAR' %}
+          Price: ZAR {{ product.price|floatformat:2 }}
+        {% else %}
+          Price: {{ selected_currency }} {{ product.converted_price|floatformat:2 }}
+        {% endif %}
+      </h3>
+      <p>{{ product.description }}</p>
+      
+      <!-- Add to Cart Form (AJAX-enabled) -->
+      <form class="add-to-cart-form mt-4" method="POST" data-item-id="{{ product.id }}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.add-to-cart-form').forEach(form => {
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const itemId = this.getAttribute('data-item-id');
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      fetch(`/add-to-cart/${itemId}/`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrfToken
+          },
+          body: JSON.stringify({ item_id: itemId })
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              alert(data.message);
+          }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ blog_post.title }} - STQ Media{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h1 class="fw-bold text-dark">{{ blog_post.title }}</h1>
+  <p class="text-muted small">
+    Published on {{ blog_post.published_date|date:"F d, Y" }} by <strong>STQ Media Team</strong>
+  </p>
+  
+  {% if blog_post.featured_image %}
+    <img src="{{ blog_post.featured_image.url }}" alt="{{ blog_post.title }}" class="img-fluid rounded my-4">
+  {% endif %}
+  
+  <div class="text-body mt-4">
+    {{ blog_post.content|safe }}
+  </div>
+  
+  <div class="mt-5">
+    <h3 class="h5 fw-bold text-dark">Comments</h3>
+    <div class="bg-light p-4 rounded mt-3">
+      <p class="text-muted">No comments yet. Be the first to share your thoughts!</p>
+    </div>
+  </div>
+  
+  <a href="{% url 'stqpictures:blog_list' %}" class="btn btn-outline-primary mt-4">
+    Back to Blog List
+  </a>
+</div>
+{% endblock %}

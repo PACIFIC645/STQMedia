@@ -1,0 +1,27 @@
+# 🔒 Security & Environment
+.env
+
+# 🚫 Ignore Database & Migrations (if using SQLite)
+db.sqlite3
+*.sqlite3
+
+# 🚫 Ignore Python Compiled Files
+__pycache__/
+*.pyc
+*.pyo
+
+# 🚫 Ignore Media & Static Files
+# /media/
+# staticfiles/
+# static/
+node_modules/
+
+# 🚫 Ignore Virtual Environment (if using venv)
+venv/
+.env/
+
+# 🚫 VS Code / JetBrains / MacOS Junk Files
+.vscode/
+.idea/
+.DS_Store
+venv-wsl/

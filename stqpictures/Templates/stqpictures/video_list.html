@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <h1 class="display-4 text-center mb-4">🎬 Video Gallery</h1>
+  <div class="row g-4">
+    {% for video in videos %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="h5 fw-bold mb-3">{{ video.title }}</h2>
+            {% if video.video_file %}
+              <video class="video-js w-100 rounded mb-3" controls preload="auto" style="height: 12rem; object-fit: cover;"
+                     data-setup='{}'>
+                <source src="{{ video.video_file.url }}" type="video/mp4">
+                <p class="text-muted">Your browser does not support the video tag.</p>
+              </video>
+            {% elif video.youtube_url %}
+              <div class="embed-responsive embed-responsive-16by9 mb-3">
+                <iframe class="w-100 rounded" style="height:12rem;" src="{{ video.youtube_url }}" frameborder="0" allowfullscreen></iframe>
+              </div>
+            {% else %}
+              <p class="text-danger">No video available.</p>
+            {% endif %}
+            <a href="{% url 'video-detail' video.id %}" class="btn btn-primary w-100">View Details</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    <!-- Static Videos (optional) -->
+    {% for video in static_videos %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="h5 fw-bold mb-3">{{ video.title }}</h2>
+            <video id="my-player-{{ forloop.counter }}" class="video-js w-100 rounded mb-3" controls preload="auto" style="height: 12rem; object-fit: cover;" data-setup='{}'>
+              <source src="{% static 'videos/sample.mp4' %}" type="video/mp4">
+              <p class="text-muted">Your browser does not support the video tag.</p>
+            </video>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if user.is_authenticated %}
+    <div class="text-center mt-5">
+      <a href="{% url 'upload-video' %}" class="btn btn-success">📤 Upload Your Video</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
