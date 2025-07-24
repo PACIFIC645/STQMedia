@@ -20,31 +20,20 @@ With a foundation built for performance, it offers a fluid exploration of **visu
 ## **Immediate Most Tasks (Updates/Enhancements)**
 📋 **System Improvements Sheet** – A comprehensive document to share with all users, including paid users, to collect feedback and iterate on the platform. 
 
-## 🚀 **Upcoming Enhancements**
+## **Upcoming Enhancements**
+*Highlighting user-centric and interactive feature additions designed to improve engagement and functionality.*
 
-- **Sub-Galleries**: Organize media into dedicated categories such as **photography**, **videography**, and **digital art**.
-- **Media Showcase Pages**: Create dedicated pages for showcasing **models**, **photography**, and **video content**.
-- **API Integration**: Integrate third-party APIs for essential features like **payment gateways** 💳, **social media** 📱, and **mapping** 🗺️.
-- **Jailbreak & Root Detection**: Implement enhanced app security by performing **jailbreak tests** for iOS 📱 (detecting signs of jailbreaking with    tools like Cydia) and Android 🤖 (using RootBeer for root detection).
-- **Polling & Voting System**: Develop a **polling/voting system** powered by **Ubuntu Guru** for media competitions and interactive content.
-- **STQ_SVCFranchise App**: Enhance the platform for **music video competitions** and **media events**.
-- **Discount Coupons**: Introduce special offers and **promo codes** for customers.
-- **Video Playback Optimization**: Improve the **media player** and optimize **content linking** for smoother playback.
-- **Gallery Updates**: Upgrade and **optimize galleries** for web publishing, enhancing performance and accessibility.
-- **Social & Google Login**: Implement both **email authentication** and **OAuth integration** for easier sign-in options.
-- **Password Recovery System**: Add **forgot password** and **reset password** functionality for enhanced user experience.
-- **Services & Product Pages**: Create robust **Services** and **Product** pages with **SKUs**, detailed **tooltips**, and dynamic features.
-- **Competition Page**: Enhance the **Competition Page** with sections for **details**, **content**, and **voting** to improve user interaction.
-- **Wishlist**: Introduce a **Wishlist** feature for users to save favorite products or services for future consideration.
-- **Material Design Tooltips**: Implement **Material Design** configuration for **tooltips** for a consistent, modern UI experience.
-- **Checkout Integration**: Integrate **checkout** functionality for smooth and secure purchasing options.
-- **New User Handling**: Enable **new user profile creation**, including **profile image** and **video upload** for personalization.
-- **Blob Storage**: Refine the **Blob Storage** management for optimized **image handling** and storage solutions.
-- **Docker Support**: Dockerize the project to facilitate **easy deployment** and **scalable architecture**.
-- **Azure Integration**: Set up **Blob Storage** and **cloud deployment** for managing large media and scaling.
-- **Domain/Hosting & SEO**: Optimize for **Domain/Hosting targets** and implement **Search Engine Optimization (SEO)** strategies for improved discoverability.
-- **AI & Automation**: Future-proof the platform with **AI-driven enhancements** for personalization and automation.
-
+- **Media Showcase Pages**: Create dedicated showcases for categories such as **photography**, **videography**, and **digital art**.
+- **Media Showcase Pages**: Create dedicated pages for showcasing **models**, **photography**, and **video content**. 
+- **Competition Pages**: Enrich the **STQ_SVCFranchise** with sections for **detailed rules**, **content entries**, and **voting results**.  
+- **Discount Coupons**: Add promo codes and limited-time offers to attract new users and boost transactions.  
+- **Wishlist Feature**: Enable users to save favorite media products or services for future access.  
+- **Material Design Enhancements**: Implement **Material Design** tooltips and modern components to elevate the visual and interactive experience.  
+- **Enhanced Checkout Experience**: Optimize the purchasing flow for smoother and more secure transactions.  
+- **Password Recovery System**: Add comprehensive **forgot/reset password options** for user convenience.  
+- **SEO Optimization**: Refine the platform for **search engine discoverability** and better **domain/hosting targeting**.  
+- **New User Profiles**: Facilitate personalized profiles with **photo uploads**, **preferences**, and easy navigation.  
+- **Jailbreak & Root Detection**: Implement enhanced app security by performing **jailbreak tests** for iOS 📱 (detecting signs of jailbreaking with    tools like Cydia) and Android 🤖 (using RootBeer for root detection). 
 
 ## **Technology Stack**
 
@@ -69,7 +58,7 @@ Ensure you have the following installed:
 
 1️⃣ **Clone the Repository:**  
 ```bash
-git clone <repo-url>
+git clone https://github.com/PACIFIC645/STQMedia.git
 cd STQMedia
 ```
 
@@ -105,13 +94,18 @@ Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) to explore the project.
 
 ---
 
-## **Next Steps & Roadmap**  
+## **STQ Roadmap**
+*Focusing on system-level and architectural improvements, essential for scalability and reliability.*
 
-📌 **Sub-Galleries & Media Pages** – Develop **photography, videography, and digital art showcases**.  
-📌 **Polls & Voting** – Integrate the **Ubuntu Guru** polling system.  
-📌 **Video Player Enhancement** – Improve playback stability.  
-📌 **Docker & Azure Deployment** – Optimize for **scalability and cloud hosting**.  
-📌 **Social Authentication** – Integrate **Google & Social Logins**.  
-📌 **Automation & AI** – Explore **AI-driven recommendations and automation tools**.  
+📌 **Dynamic Galleries Framework** – Develop a wavy parallax-based framework for galleries that supports immersive displays and responsive user interaction.  
+📌 **Polls and Voting Integration** – Incorporate the **Ubuntu Guru** polling system for engaging media competitions and user-generated rankings.  
+📌 **Video Playback Optimization** – Strengthen video player performance using **adaptive bitrate streaming** for smoother playback experiences.  
+📌 **Scalable Infrastructure with Docker** – Dockerize the platform to streamline development environments and optimize **multi-tier deployment** pipelines.  
+📌 **Azure Cloud Deployment** – Establish a robust **Blob Storage system** and deploy the app on Azure for enhanced scalability, secure data handling, and high availability.  
+📌 **Social Authentication Integration** – Implement **Google OAuth** and social login options for an accessible yet secure user experience.  
+📌 **AI-Powered Personalization** – Explore AI-driven enhancements for **content curation**, **media categorization**, **interactive user suggestions**, and **dynamic content delivery automation**, while integrating with **payment systems** 💳 and **social media platforms** 📱 for seamless engagement.
+
+
+*🔗 See [Upcoming Enhancements](#upcoming-enhancements) for additional feature-focused updates.*  
 
 🚀 *Stay tuned for upcoming features!*

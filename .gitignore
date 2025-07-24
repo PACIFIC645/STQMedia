@@ -1,27 +1,31 @@
 # 🔒 Security & Environment
 .env
 
-# 🚫 Ignore Database & Migrations (if using SQLite)
-db.sqlite3
-*.sqlite3
-
-# 🚫 Ignore Python Compiled Files
+# 🚫 Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 
-# 🚫 Ignore Media & Static Files
-# /media/
-# staticfiles/
+# 🚫 Virtual Environments
+venv/
+venv-wsl/
+
+# 🚫 Database (SQLite)
+*.sqlite3
+db.sqlite3
+
+# ✅ ALLOW SQL Dumps
+# (No rule blocking *.sql)
+
+# 🚫 Static & Media
+# media/
 # static/
+# staticfiles/
+
+# 🚫 Node
 node_modules/
 
-# 🚫 Ignore Virtual Environment (if using venv)
-venv/
-.env/
-
-# 🚫 VS Code / JetBrains / MacOS Junk Files
+# 🚫 IDEs
 .vscode/
 .idea/
 .DS_Store
-venv-wsl/
